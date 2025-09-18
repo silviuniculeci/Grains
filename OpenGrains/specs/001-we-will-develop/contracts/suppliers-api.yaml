@@ -1,0 +1,624 @@
+openapi: 3.0.3
+info:
+  title: OpenGrains Supplier Management API
+  description: API for managing supplier onboarding, profiles, and validation workflow
+  version: 1.0.0
+  contact:
+    name: OpenGrains API Team
+    email: api@opengrains.com
+
+servers:
+  - url: https://api.opengrains.com/v1
+    description: Production server
+  - url: https://staging-api.opengrains.com/v1
+    description: Staging server
+
+paths:
+  /suppliers:
+    get:
+      summary: List suppliers
+      description: Retrieve a paginated list of suppliers with optional filtering
+      tags:
+        - Suppliers
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/SupplierStatus'
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: search
+          in: query
+          description: Search by business name or contact information
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of suppliers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create new supplier
+      description: Create a new supplier profile (draft status)
+      tags:
+        - Suppliers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSupplierRequest'
+      responses:
+        '201':
+          description: Supplier created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /suppliers/{supplierId}:
+    get:
+      summary: Get supplier by ID
+      description: Retrieve a specific supplier's profile and status
+      tags:
+        - Suppliers
+      parameters:
+        - $ref: '#/components/parameters/SupplierId'
+      responses:
+        '200':
+          description: Supplier details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    put:
+      summary: Update supplier profile
+      description: Update supplier profile information (only in draft/rejected status)
+      tags:
+        - Suppliers
+      parameters:
+        - $ref: '#/components/parameters/SupplierId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSupplierRequest'
+      responses:
+        '200':
+          description: Supplier updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Supplier status does not allow updates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /suppliers/{supplierId}/submit:
+    post:
+      summary: Submit supplier for validation
+      description: Submit completed supplier profile for commercial back office review
+      tags:
+        - Suppliers
+      parameters:
+        - $ref: '#/components/parameters/SupplierId'
+      responses:
+        '200':
+          description: Supplier submitted for validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /suppliers/{supplierId}/validate:
+    post:
+      summary: Validate supplier profile
+      description: Approve or reject supplier profile (back office only)
+      tags:
+        - Validation
+      parameters:
+        - $ref: '#/components/parameters/SupplierId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationRequest'
+      responses:
+        '200':
+          description: Validation decision recorded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          description: Insufficient permissions for validation
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /suppliers/{supplierId}/documents:
+    get:
+      summary: List supplier documents
+      description: Get all documents associated with a supplier
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/SupplierId'
+      responses:
+        '200':
+          description: List of supplier documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DocumentResponse'
+
+    post:
+      summary: Upload document
+      description: Upload a document for supplier validation
+      tags:
+        - Documents
+      parameters:
+        - $ref: '#/components/parameters/SupplierId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentUploadRequest'
+      responses:
+        '201':
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '413':
+          description: File too large
+
+  /documents/{documentId}:
+    get:
+      summary: Download document
+      description: Download a specific document file
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Delete document
+      description: Remove a document (only in draft status)
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Document deleted
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Document cannot be deleted in current status
+
+components:
+  parameters:
+    SupplierId:
+      name: supplierId
+      in: path
+      required: true
+      description: Unique identifier for the supplier
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    SupplierStatus:
+      type: string
+      enum:
+        - draft
+        - submitted
+        - under_review
+        - approved
+        - rejected
+        - active
+        - suspended
+
+    CreateSupplierRequest:
+      type: object
+      required:
+        - profile
+      properties:
+        profile:
+          $ref: '#/components/schemas/SupplierProfile'
+
+    UpdateSupplierRequest:
+      type: object
+      properties:
+        profile:
+          $ref: '#/components/schemas/SupplierProfile'
+
+    ValidationRequest:
+      type: object
+      required:
+        - decision
+      properties:
+        decision:
+          type: string
+          enum: [approved, rejected]
+        notes:
+          type: string
+          maxLength: 1000
+        requiredActions:
+          type: array
+          items:
+            type: string
+
+    SupplierProfile:
+      type: object
+      required:
+        - businessName
+        - businessType
+        - primaryContact
+        - address
+        - grainTypes
+      properties:
+        businessName:
+          type: string
+          minLength: 2
+          maxLength: 100
+        businessType:
+          type: string
+          enum:
+            - individual_farmer
+            - family_farm
+            - cooperative
+            - agribusiness
+            - grain_elevator
+        registrationNumber:
+          type: string
+        taxId:
+          type: string
+        primaryContact:
+          $ref: '#/components/schemas/ContactInfo'
+        alternateContact:
+          $ref: '#/components/schemas/ContactInfo'
+        address:
+          $ref: '#/components/schemas/Address'
+        grainTypes:
+          type: array
+          items:
+            type: string
+            enum:
+              - wheat
+              - corn
+              - soybeans
+              - barley
+              - oats
+              - rice
+              - other
+        estimatedVolume:
+          $ref: '#/components/schemas/VolumeEstimate'
+        certifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Certification'
+
+    ContactInfo:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - phone
+        - preferredContactMethod
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        title:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
+        mobilePhone:
+          type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
+        preferredContactMethod:
+          type: string
+          enum: [email, phone, mobile]
+
+    Address:
+      type: object
+      required:
+        - street
+        - city
+        - state
+        - postalCode
+        - country
+      properties:
+        street:
+          type: string
+          maxLength: 200
+        city:
+          type: string
+          maxLength: 100
+        state:
+          type: string
+          maxLength: 100
+        postalCode:
+          type: string
+          maxLength: 20
+        country:
+          type: string
+          maxLength: 100
+        coordinates:
+          $ref: '#/components/schemas/GeoCoordinates'
+
+    GeoCoordinates:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+
+    VolumeEstimate:
+      type: object
+      required:
+        - amount
+        - unit
+        - period
+      properties:
+        amount:
+          type: number
+          minimum: 0
+        unit:
+          type: string
+          enum: [tons, bushels, kilograms]
+        period:
+          type: string
+          enum: [yearly, seasonal, monthly]
+
+    Certification:
+      type: object
+      required:
+        - type
+        - issuer
+        - validUntil
+      properties:
+        type:
+          type: string
+        issuer:
+          type: string
+        validUntil:
+          type: string
+          format: date
+        certificationNumber:
+          type: string
+
+    DocumentUploadRequest:
+      type: object
+      required:
+        - file
+        - type
+      properties:
+        file:
+          type: string
+          format: binary
+        type:
+          $ref: '#/components/schemas/DocumentType'
+        description:
+          type: string
+          maxLength: 500
+
+    DocumentType:
+      type: string
+      enum:
+        - business_license
+        - tax_certificate
+        - bank_statement
+        - insurance_certificate
+        - quality_certification
+        - grain_analysis
+        - identification
+        - proof_of_address
+        - other
+
+    SupplierResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        profile:
+          $ref: '#/components/schemas/SupplierProfile'
+        status:
+          $ref: '#/components/schemas/SupplierStatus'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          format: uuid
+        validatedBy:
+          type: string
+          format: uuid
+        validatedAt:
+          type: string
+          format: date-time
+
+    DocumentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        supplierId:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/DocumentType'
+        filename:
+          type: string
+        originalFilename:
+          type: string
+        mimeType:
+          type: string
+        size:
+          type: integer
+        uploadStatus:
+          type: string
+          enum: [pending, uploading, completed, failed]
+        validationStatus:
+          type: string
+          enum: [not_reviewed, under_review, approved, rejected, requires_update]
+        uploadedAt:
+          type: string
+          format: date-time
+        uploadedBy:
+          type: string
+          format: uuid
+
+    SupplierListResponse:
+      type: object
+      properties:
+        suppliers:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    PaginationMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
