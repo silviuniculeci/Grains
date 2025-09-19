@@ -50,12 +50,14 @@ export class SupplierService {
 
   // Submit supplier for review
   static async submit(id: string): Promise<SupplierProfile> {
+    const updateData = {
+      registration_status: 'submitted',
+      validation_status: 'under_review',
+    }
+
     const { data, error } = await supabase
       .from('supplier_profiles')
-      .update({
-        registration_status: 'submitted' as const,
-        validation_status: 'under_review' as const,
-      })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single()

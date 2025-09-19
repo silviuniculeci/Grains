@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '../../../shared/types/database'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -9,7 +8,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 // Create Supabase client
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
@@ -57,7 +56,7 @@ export const getCurrentSession = async () => {
 }
 
 // Database helpers for suppliers
-export const createSupplierProfile = async (profileData: Database['public']['Tables']['supplier_profiles']['Insert']) => {
+export const createSupplierProfile = async (profileData: any) => {
   const { data, error } = await supabase
     .from('supplier_profiles')
     .insert(profileData)
@@ -68,7 +67,7 @@ export const createSupplierProfile = async (profileData: Database['public']['Tab
   return data
 }
 
-export const updateSupplierProfile = async (id: string, profileData: Database['public']['Tables']['supplier_profiles']['Update']) => {
+export const updateSupplierProfile = async (id: string, profileData: any) => {
   const { data, error } = await supabase
     .from('supplier_profiles')
     .update(profileData)
@@ -155,9 +154,9 @@ export const uploadDocument = async (
   if (uploadError) throw uploadError
 
   // Create document record
-  const documentInsert: Database['public']['Tables']['documents']['Insert'] = {
+  const documentInsert = {
     supplier_id: supplierId,
-    document_type: documentType as Database['public']['Tables']['documents']['Row']['document_type'],
+    document_type: documentType,
     filename: file.name,
     file_path: uploadData.path,
     file_size: file.size,
