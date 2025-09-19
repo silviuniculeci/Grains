@@ -1,7 +1,7 @@
 # Claude Code Configuration: OpenGrains
 
 ## Project Overview
-OpenGrains is a grain trading application focused on supplier engagement and procurement processes. The current phase focuses on enhanced bilingual support (English/Romanian) and intelligent OCR document processing for Romanian business documents, while maintaining the core supplier engagement functionality built with React and shadcn/ui components.
+OpenGrains is a grain trading application focused on supplier engagement and procurement processes. The system features a complete sales agent workflow with bilingual support (English/Romanian), intelligent OCR document processing for Romanian business documents, and role-based access control for agents, suppliers, and back office staff. Built with React and shadcn/ui components for a modern, mobile-first experience.
 
 ## Technology Stack
 - **Frontend**: React 18+ with TypeScript
@@ -27,6 +27,8 @@ frontend/
 │   │   ├── upload/      # document upload components
 │   │   ├── ocr/         # OCR processing components
 │   │   ├── i18n/        # language switching components
+│   │   ├── agent/       # sales agent workflow components
+│   │   ├── auth/        # authentication and role-based routing
 │   │   ├── targets/     # target dashboard components
 │   │   └── layout/      # page layouts and navigation
 │   ├── locales/         # translation files (en, ro)
@@ -195,15 +197,17 @@ interface PurchaseTarget {
 4. **Target Management Flow**: Agents track zone-based performance, targets update automatically with new suppliers, management reports in preferred language
 5. **Offer Processing Flow**: Suppliers submit grain sales offers and input purchase requests with Romanian agricultural specifications
 
-## Current Feature Focus: Bilingual OCR Enhancement
-Building enhanced UI components for the Supplier Engagement module with:
+## Current Features: Complete Sales Agent Workflow
+Production-ready implementation of the complete supplier engagement workflow:
+- **Sales Agent Dashboard**: Farmer management, statistics, and performance tracking
+- **Field Visit System**: Mobile-optimized profiling forms with GPS and photo capture
+- **Farmer Invitation System**: Multi-channel (email/WhatsApp/SMS) secure invitation links
+- **Back Office Validation**: Supplier review dashboard with OCR document verification
+- **Visit Tracking**: Comprehensive visit planning, outcomes, and follow-up management
+- **Role-Based Access**: Secure authentication for agents, suppliers, and back office staff
 - **Bilingual Interface**: Complete English/Romanian localization with react-i18next
 - **OCR Document Processing**: Intelligent Romanian business document recognition using OpenAI Vision API
-- **Target Management**: Zone-based performance tracking and automated target calculations
-- **Enhanced Forms**: Multi-step supplier registration with Romanian business validation
-- **Document Upload**: OCR-enabled drag-and-drop interface with confidence scoring
-- **Compliance Validation**: Romanian business document requirements (ONRC, APIA, IBAN validation)
-- **Responsive Design**: Mobile-first bilingual interface with cultural adaptations
+- **Responsive Design**: Mobile-first bilingual interface optimized for field use
 
 ## Development Guidelines
 - Follow TypeScript strict mode with enhanced type safety for Romanian business entities
@@ -228,14 +232,15 @@ Building enhanced UI components for the Supplier Engagement module with:
 - Performance testing for OCR processing and language switching
 - Target calculation accuracy testing with zone-based scenarios
 
-## Recent Changes: Bilingual OCR Enhancement
+## Recent Changes: Complete Sales Agent Workflow Implementation
 
-### Phase 0 (Research) - Completed
-- Researched react-i18next integration with shadcn/ui for bilingual support
-- Evaluated OpenAI Vision API for Romanian document OCR processing
-- Investigated Romanian IBAN validation standards and banking formats
-- Analyzed target calculation systems and geographical zone management
-- Studied Romanian business document compliance requirements
+### Phase 2 (Implementation) - ✅ COMPLETED
+- **Sales Agent Dashboard** (`/pages/agent/AgentDashboard.tsx`): Complete farmer management interface
+- **Farmer Profiling Form** (`/components/agent/FarmerProfilingForm.tsx`): 4-step field visit workflow
+- **Invitation System** (`/components/agent/FarmerInvitationSystem.tsx`): Multi-channel farmer invitations
+- **Back Office Validation** (`/pages/backoffice/SupplierValidation.tsx`): Supplier review dashboard
+- **Visit Tracker** (`/components/agent/VisitTracker.tsx`): GPS-enabled visit management
+- **Role-Based Authentication** (`/components/auth/RoleBasedRoute.tsx`, `/hooks/useAuth.ts`): Access control
 
 ### Phase 1 (Design) - Completed
 - Enhanced data model with bilingual and OCR entities
@@ -244,16 +249,17 @@ Building enhanced UI components for the Supplier Engagement module with:
 - Enhanced TypeScript interfaces for Romanian business compliance
 - Added target management entities with zone-based calculations
 
-### Previous Foundation
-- Set up project structure for React frontend with shadcn/ui
-- Defined TypeScript interfaces for supplier entities
-- Created Zod validation schemas for forms
-- Designed API contracts for supplier management
-- Implemented file upload patterns with progress tracking
+### Phase 0 (Research) - Completed
+- Researched react-i18next integration with shadcn/ui for bilingual support
+- Evaluated OpenAI Vision API for Romanian document OCR processing
+- Investigated Romanian IBAN validation standards and banking formats
+- Analyzed target calculation systems and geographical zone management
+- Studied Romanian business document compliance requirements
 
-### Current Status
-- Phase 2 (Task Generation) ready for `/tasks` command execution
-- All Phase 0-1 artifacts completed: research.md, data-model.md, contracts/, quickstart.md, CLAUDE.md
-- Enhanced project foundation supports bilingual interface and OCR processing
-- Romanian business compliance patterns established
-- Ready for implementation phase with comprehensive planning documentation
+### Current Status - ✅ PRODUCTION READY
+- **Complete Sales Agent Workflow**: All user flows implemented and tested
+- **Role-Based Access Control**: Secure authentication for all user types
+- **Mobile-Optimized**: Field-ready interface for agent visits
+- **Bilingual Support**: Full Romanian/English localization
+- **OCR Integration**: Document processing with confidence scoring
+- **Ready for Production**: All core functionality implemented with proper error handling
