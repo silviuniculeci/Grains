@@ -1,0 +1,62 @@
+{
+  "upload": {
+    "title": "Încărcare documente",
+    "description": "Încărcați documentele justificative pentru verificare",
+    "document_type": "Tipul documentului",
+    "select_type": "Selectați tipul documentului",
+    "drop_files": "Trageți fișierele aici",
+    "or_click": "sau faceți clic pentru a răsfoi",
+    "browse_files": "Răsfoiți fișierele",
+    "max_size": "Dimensiunea maximă a fișierului",
+    "accepted_formats": "Formate acceptate",
+    "remaining_slots": "Locuri rămase",
+    "uploaded_files": "Fișiere încărcate",
+    "uploading": "Se încarcă",
+    "completed": "Finalizat",
+    "failed": "Eșuat",
+    "view": "Vizualizează",
+    "ocr_processing": "Procesarea OCR va începe automat",
+    "total_files": "Total fișiere",
+    "ocr_results": "Rezultate OCR",
+    "confidence": "Încredere",
+    "extracted_data": "Date extrase",
+    "processing": "Se procesează",
+    "ocr_completed": "OCR finalizat",
+    "ocr_failed": "OCR eșuat",
+    "review_data": "Verificați datele extrase",
+    "approve_data": "Aprobați datele",
+    "reject_data": "Respingeți datele"
+  },
+  "types": {
+    "onrc_certificate": "Certificat ONRC",
+    "farmer_id_card": "Legitimație de fermier",
+    "apia_certificate": "Certificat APIA",
+    "bank_statement": "Extras de cont bancar",
+    "identity_card": "Carte de identitate",
+    "other": "Alt document"
+  },
+  "errors": {
+    "file_too_large": "Dimensiunea fișierului depășește limita de 10MB",
+    "invalid_file_type": "Tip de fișier invalid. Folosiți JPG, PNG, WebP sau PDF.",
+    "upload_failed": "Încărcarea a eșuat",
+    "ocr_failed": "Procesarea OCR a eșuat"
+  },
+  "ocr": {
+    "title": "Procesare OCR",
+    "status": {
+      "pending": "În așteptare",
+      "processing": "Se procesează",
+      "completed": "Finalizat",
+      "failed": "Eșuat"
+    },
+    "extracted_fields": {
+      "business_name": "Numele firmei",
+      "cui": "CUI",
+      "onrc_number": "Număr ONRC",
+      "iban": "IBAN",
+      "address": "Adresa",
+      "phone": "Telefon",
+      "email": "Email"
+    }
+  }
+}

@@ -8,7 +8,8 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { uploadDocument } from '@/lib/supabase'
-import { Upload, FileText, CheckCircle, XCircle, Eye, Loader2 } from 'lucide-react'
+import { Upload, FileText, CheckCircle, XCircle, Eye, Loader2, Brain } from 'lucide-react'
+import { OCRResults } from '@/components/ocr/OCRResults'
 
 interface DocumentUploadProps {
   supplierId: string
@@ -25,6 +26,7 @@ interface UploadingFile {
   status: 'uploading' | 'completed' | 'failed'
   error?: string
   documentId?: string
+  showOCR?: boolean
 }
 
 const DOCUMENT_TYPES: { value: DocumentType; labelKey: string }[] = [
@@ -134,6 +136,14 @@ export const DocumentUpload = ({ supplierId, onUploadSuccess, maxFiles = 5 }: Do
 
   const removeFile = (file: File) => {
     setUploadingFiles(prev => prev.filter(f => f.file.name !== file.name))
+  }
+
+  const toggleOCR = (file: File) => {
+    setUploadingFiles(prev => prev.map(f =>
+      f.file.name === file.name
+        ? { ...f, showOCR: !f.showOCR }
+        : f
+    ))
   }
 
   const canAddMore = uploadingFiles.length < maxFiles
@@ -274,9 +284,35 @@ export const DocumentUpload = ({ supplierId, onUploadSuccess, maxFiles = 5 }: Do
                       <Eye className="h-4 w-4 mr-1" />
                       {t('documents:upload.view')}
                     </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleOCR(uploadingFile.file)}
+                    >
+                      <Brain className="h-4 w-4 mr-1" />
+                      {uploadingFile.showOCR ? 'Ascunde OCR' : 'Procesare OCR'}
+                    </Button>
                     <div className="text-xs text-muted-foreground">
                       {t('documents:upload.ocr_processing')}
                     </div>
+                  </div>
+                )}
+
+                {/* OCR Results Panel */}
+                {uploadingFile.status === 'completed' && uploadingFile.showOCR && uploadingFile.documentId && (
+                  <div className="mt-4 pt-4 border-t">
+                    <OCRResults
+                      documentId={uploadingFile.documentId}
+                      documentType={uploadingFile.documentType}
+                      documentName={uploadingFile.file.name}
+                      onApproveData={(data) => {
+                        console.log('OCR data approved:', data)
+                        // Here you would send the approved data back to the form
+                      }}
+                      onRejectData={(reason) => {
+                        console.log('OCR data rejected:', reason)
+                      }}
+                    />
                   </div>
                 )}
               </div>

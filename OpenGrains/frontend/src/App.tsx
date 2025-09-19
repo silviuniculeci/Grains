@@ -4,6 +4,7 @@ import './App.css'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { User, Building2, FileCheck, LogOut } from 'lucide-react'
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
@@ -11,6 +12,7 @@ import { LoginForm } from '@/components/auth/LoginForm'
 import { SignUpForm } from '@/components/auth/SignUpForm'
 import { SupplierRegistrationForm } from '@/components/forms/SupplierRegistrationForm'
 import { DocumentUpload } from '@/components/upload/DocumentUpload'
+import { SupplierSharingLink } from '@/components/sharing/SupplierSharingLink'
 import { getCurrentUser, signOut } from '@/lib/supabase'
 
 function App() {
@@ -129,32 +131,45 @@ function App() {
           </p>
         </header>
 
-        <main className="max-w-4xl mx-auto">
+        <main className="max-w-7xl mx-auto">
           <Tabs defaultValue="supplier" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="agent">Sales Agent</TabsTrigger>
-              <TabsTrigger value="supplier">{t('common:navigation.suppliers')}</TabsTrigger>
-              <TabsTrigger value="backoffice">Back Office</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
+              <TabsTrigger value="agent" className="text-xs sm:text-sm">Agent vânzări</TabsTrigger>
+              <TabsTrigger value="supplier" className="text-xs sm:text-sm">{t('common:navigation.suppliers')}</TabsTrigger>
+              <TabsTrigger value="documents" className="text-xs sm:text-sm">{t('common:navigation.documents')}</TabsTrigger>
+              <TabsTrigger value="backoffice" className="text-xs sm:text-sm">Back Office</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="agent" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <User className="h-5 w-5" />
-                    Agent Dashboard
-                  </CardTitle>
-                  <CardDescription>
-                    Register suppliers and manage farmer relationships
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <SupplierRegistrationForm
-                    onSuccess={handleSupplierRegistrationSuccess}
-                    onSaveDraft={(id) => setCurrentSupplierId(id)}
+            <TabsContent value="agent" className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                <div className="space-y-4">
+                  <Card>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <User className="h-5 w-5" />
+                        Înregistrare directă
+                      </CardTitle>
+                      <CardDescription className="text-sm">
+                        Înregistrează un furnizor în numele fermierului
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <SupplierRegistrationForm
+                        onSuccess={handleSupplierRegistrationSuccess}
+                        onSaveDraft={(id) => setCurrentSupplierId(id)}
+                      />
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="space-y-4">
+                  <SupplierSharingLink
+                    onLinkGenerated={(link) => {
+                      console.log('Generated link:', link)
+                    }}
                   />
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </TabsContent>
 
             <TabsContent value="supplier" className="space-y-6">
@@ -164,36 +179,52 @@ function App() {
                   onSaveDraft={(id) => setCurrentSupplierId(id)}
                 />
               ) : (
-                <div className="space-y-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Building2 className="h-5 w-5" />
-                        Registration Complete
-                      </CardTitle>
-                      <CardDescription>
-                        Your supplier profile has been submitted. Upload supporting documents below.
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Badge variant="default" className="mb-4">
-                        Registration Submitted Successfully
-                      </Badge>
-                      <p className="text-sm text-muted-foreground">
-                        You can now upload supporting documents for verification.
-                      </p>
-                    </CardContent>
-                  </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Building2 className="h-5 w-5" />
+                      Înregistrare completă
+                    </CardTitle>
+                    <CardDescription>
+                      Profilul de furnizor a fost trimis. Accesați tab-ul "Documente" pentru a încărca documentele justificative.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Badge variant="default" className="mb-4">
+                      Înregistrare trimisă cu succes
+                    </Badge>
+                    <p className="text-sm text-muted-foreground">
+                      Puteți acum încărca documentele justificative pentru verificare în tab-ul "Documente".
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
 
-                  {currentSupplierId && (
-                    <DocumentUpload
-                      supplierId={currentSupplierId}
-                      onUploadSuccess={(documentId) => {
-                        console.log('Document uploaded:', documentId)
-                      }}
-                    />
-                  )}
-                </div>
+            <TabsContent value="documents" className="space-y-6">
+              {currentSupplierId ? (
+                <DocumentUpload
+                  supplierId={currentSupplierId}
+                  onUploadSuccess={(documentId) => {
+                    console.log('Document uploaded:', documentId)
+                  }}
+                />
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Încărcare documente</CardTitle>
+                    <CardDescription>
+                      Completați mai întâi înregistrarea ca furnizor pentru a putea încărca documente.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Alert>
+                      <AlertDescription>
+                        Pentru a încărca documente, trebuie să completați mai întâi profilul de furnizor în tab-ul "Furnizori".
+                      </AlertDescription>
+                    </Alert>
+                  </CardContent>
+                </Card>
               )}
             </TabsContent>
 

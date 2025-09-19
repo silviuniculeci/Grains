@@ -12,6 +12,7 @@
   },
   "buttons": {
     "save": "Salvează",
+    "save_draft": "Salvează ca schiță",
     "cancel": "Anulează",
     "submit": "Trimite",
     "edit": "Editează",
@@ -24,12 +25,15 @@
     "continue": "Continuă",
     "back": "Înapoi",
     "next": "Următorul",
+    "previous": "Anterior",
     "close": "Închide",
     "confirm": "Confirmă",
     "search": "Caută",
     "filter": "Filtrează",
     "reset": "Resetează",
-    "export": "Exportă"
+    "export": "Exportă",
+    "share": "Partajează",
+    "copy_link": "Copiază link-ul"
   },
   "status": {
     "pending": "În așteptare",
@@ -41,7 +45,10 @@
     "success": "Succes",
     "error": "Eroare",
     "warning": "Avertisment",
-    "info": "Informație"
+    "info": "Informație",
+    "draft": "Schiță",
+    "submitted": "Trimis",
+    "under_review": "În revizuire"
   },
   "messages": {
     "loading": "Se încarcă...",
@@ -53,8 +60,13 @@
     "unsavedChanges": "Aveți modificări nesalvate. Sunteți sigur că doriți să părăsiți?",
     "sessionExpired": "Sesiunea a expirat. Vă rugăm să vă autentificați din nou.",
     "networkError": "Eroare de rețea. Verificați conexiunea dvs.",
-    "accessDenied": "Acces interzis. Nu aveți permisiunea să vizualizați acest conținut."
+    "accessDenied": "Acces interzis. Nu aveți permisiunea să vizualizați acest conținut.",
+    "linkCopied": "Link-ul a fost copiat în clipboard",
+    "linkGenerating": "Se generează link-ul...",
+    "linkGenerated": "Link-ul a fost generat cu succes"
   },
+  "loading": "Se încarcă...",
+  "logout": "Deconectare",
   "time": {
     "seconds": "{{count}} secundă",
     "seconds_other": "{{count}} secunde",
@@ -71,5 +83,16 @@
     "current": "Română",
     "switch": "Schimbă în Engleză",
     "switchSuccess": "Limba a fost schimbată în română"
+  },
+  "sharing": {
+    "title": "Partajează cu furnizorul",
+    "description": "Generează un link unic pentru ca furnizorul să își completeze profilul",
+    "generating": "Se generează link-ul...",
+    "generated": "Link-ul a fost generat cu succes",
+    "copy": "Copiază link-ul",
+    "copied": "Link-ul a fost copiat!",
+    "send": "Trimite link-ul",
+    "instructions": "Trimite acest link furnizorului pentru a-și completa înregistrarea:",
+    "expire": "Link-ul va expira în 7 zile"
   }
 }
