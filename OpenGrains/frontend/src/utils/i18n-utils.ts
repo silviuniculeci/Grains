@@ -30,7 +30,7 @@ export const getBrowserLanguage = (): SupportedLanguage => {
 /**
  * Get appropriate direction for text (Romanian and English are both LTR)
  */
-export const getTextDirection = (language?: SupportedLanguage): 'ltr' | 'rtl' => {
+export const getTextDirection = (_language?: SupportedLanguage): 'ltr' | 'rtl' => {
   return 'ltr' // Both Romanian and English are left-to-right
 }
 

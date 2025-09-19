@@ -57,7 +57,7 @@ export const getCurrentSession = async () => {
 }
 
 // Database helpers for suppliers
-export const createSupplierProfile = async (profileData: any) => {
+export const createSupplierProfile = async (profileData: Database['public']['Tables']['supplier_profiles']['Insert']) => {
   const { data, error } = await supabase
     .from('supplier_profiles')
     .insert(profileData)
@@ -68,7 +68,7 @@ export const createSupplierProfile = async (profileData: any) => {
   return data
 }
 
-export const updateSupplierProfile = async (id: string, profileData: any) => {
+export const updateSupplierProfile = async (id: string, profileData: Database['public']['Tables']['supplier_profiles']['Update']) => {
   const { data, error } = await supabase
     .from('supplier_profiles')
     .update(profileData)
@@ -155,18 +155,20 @@ export const uploadDocument = async (
   if (uploadError) throw uploadError
 
   // Create document record
+  const documentInsert: Database['public']['Tables']['documents']['Insert'] = {
+    supplier_id: supplierId,
+    document_type: documentType as Database['public']['Tables']['documents']['Row']['document_type'],
+    filename: file.name,
+    file_path: uploadData.path,
+    file_size: file.size,
+    mime_type: file.type,
+    upload_status: 'completed',
+    uploaded_by: (await getCurrentUser())?.id || '',
+  }
+
   const { data: document, error: dbError } = await supabase
     .from('documents')
-    .insert({
-      supplier_id: supplierId,
-      document_type: documentType as any,
-      filename: file.name,
-      file_path: uploadData.path,
-      file_size: file.size,
-      mime_type: file.type,
-      upload_status: 'completed',
-      uploaded_by: (await getCurrentUser())?.id || '',
-    })
+    .insert(documentInsert)
     .select()
     .single()
 

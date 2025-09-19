@@ -80,7 +80,7 @@ i18n
     interpolation: {
       escapeValue: false, // React already does escaping
       formatSeparator: ',',
-      format: (value, format, lng) => {
+      format: (value, format, _lng) => {
         if (format === 'uppercase') return value.toUpperCase()
         if (format === 'lowercase') return value.toLowerCase()
         if (format === 'capitalize') return value.charAt(0).toUpperCase() + value.slice(1)
@@ -94,7 +94,7 @@ i18n
 
     // Missing key handling
     saveMissing: process.env.NODE_ENV === 'development',
-    missingKeyHandler: (lng, ns, key, fallbackValue) => {
+    missingKeyHandler: (lng, ns, key, _fallbackValue) => {
       if (process.env.NODE_ENV === 'development') {
         console.warn(`Missing translation key: ${ns}:${key} for language: ${lng}`)
       }

@@ -53,8 +53,8 @@ export class SupplierService {
     const { data, error } = await supabase
       .from('supplier_profiles')
       .update({
-        registration_status: 'submitted',
-        validation_status: 'under_review',
+        registration_status: 'submitted' as const,
+        validation_status: 'under_review' as const,
       })
       .eq('id', id)
       .select()
