@@ -1,0 +1,98 @@
+{
+  "messages": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "phone": "Please enter a valid Romanian phone number",
+    "minLength": "Must be at least {{min}} characters long",
+    "maxLength": "Must be no more than {{max}} characters long",
+    "min": "Must be at least {{min}}",
+    "max": "Must be no more than {{max}}",
+    "pattern": "Please enter a valid format",
+    "numeric": "Must contain only numbers",
+    "alphanumeric": "Must contain only letters and numbers",
+    "positiveNumber": "Must be a positive number",
+    "integerNumber": "Must be a whole number",
+    "decimalNumber": "Must be a valid decimal number"
+  },
+  "romanian": {
+    "cui": {
+      "invalid": "Invalid Romanian CUI format",
+      "wrongLength": "CUI must be 2-10 digits long",
+      "checksum": "CUI checksum validation failed",
+      "format": "CUI must start with 'RO' followed by digits or contain only digits"
+    },
+    "iban": {
+      "invalid": "Invalid Romanian IBAN format",
+      "wrongLength": "Romanian IBAN must be 24 characters long",
+      "wrongCountry": "IBAN must be from Romania (start with RO)",
+      "checksum": "IBAN checksum validation failed (mod-97)",
+      "bankCode": "Invalid Romanian bank code",
+      "format": "IBAN format: RO49 AAAA 1B31 0075 9384 0000"
+    },
+    "onrc": {
+      "invalid": "Invalid ONRC registration number format",
+      "pattern": "ONRC format: J01/1234/2023 (County/Number/Year)",
+      "county": "Invalid Romanian county code",
+      "year": "Invalid registration year",
+      "number": "Invalid registration number"
+    },
+    "phone": {
+      "invalid": "Invalid Romanian phone number",
+      "mobile": "Mobile number format: +40 7XX XXX XXX",
+      "landline": "Landline format: +40 2XX XXX XXX or +40 3XX XXX XXX",
+      "format": "Phone must start with +40 or 0"
+    },
+    "postalCode": {
+      "invalid": "Invalid Romanian postal code",
+      "format": "Postal code must be 6 digits (e.g., 100001)",
+      "wrongLength": "Postal code must be exactly 6 digits"
+    },
+    "idCard": {
+      "invalid": "Invalid Romanian ID card number",
+      "format": "ID format: 1234567890123 (13 digits)",
+      "wrongLength": "ID number must be exactly 13 digits",
+      "gender": "Invalid gender digit (1st digit)",
+      "birthDate": "Invalid birth date in ID number",
+      "county": "Invalid county code in ID number",
+      "checksum": "ID number checksum validation failed"
+    }
+  },
+  "business": {
+    "duplicateEmail": "This email address is already registered",
+    "duplicateCui": "This CUI is already registered",
+    "duplicateIban": "This IBAN is already registered",
+    "duplicateOnrc": "This ONRC number is already registered",
+    "invalidBusinessType": "Please select a valid business type",
+    "addressRequired": "Complete address is required for business registration",
+    "contactRequired": "Primary contact information is required"
+  },
+  "documents": {
+    "required": "At least one document is required",
+    "fileSize": "File size cannot exceed {{maxSize}}MB",
+    "fileType": "Only {{allowedTypes}} files are allowed",
+    "uploadFailed": "Document upload failed",
+    "processingFailed": "Document processing failed",
+    "invalidDocument": "Document appears to be invalid or corrupted",
+    "ocrFailed": "OCR processing failed - please try again",
+    "lowConfidence": "OCR confidence is low - please verify extracted data",
+    "missingSignature": "Document requires an official signature",
+    "expired": "Document has expired",
+    "wrongType": "Document type doesn't match the selected category"
+  },
+  "grains": {
+    "required": "Please select at least one grain type",
+    "volumeRequired": "Estimated volume is required",
+    "volumeRange": "Volume must be between {{min}} and {{max}} tons",
+    "unrealisticVolume": "Volume seems unrealistic for the selected grain types",
+    "seasonalAvailability": "Some grains may not be available in all seasons"
+  },
+  "targets": {
+    "volumeRequired": "Target volume is required",
+    "valueRequired": "Target value is required",
+    "suppliersRequired": "Target number of suppliers is required",
+    "unrealisticTarget": "Target seems unrealistic based on historical data",
+    "pastDate": "Target date cannot be in the past",
+    "conflictingTargets": "This target conflicts with existing targets",
+    "zoneRequired": "Sales zone must be selected"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "title": "Încărcare Documente",
+  "subtitle": "Încărcați documentele de afaceri pentru procesare automată",
+  "upload": {
+    "dropzone": "Plasați fișierele aici sau faceți clic pentru a naviga",
+    "dropzoneActive": "Plasați fișierele aici...",
+    "accepted": "Fișiere PDF, JPG, PNG până la 10MB",
+    "processing": "Se procesează documentul...",
+    "success": "Documentul a fost încărcat cu succes",
+    "error": "Încărcarea documentului a eșuat",
+    "retry": "Faceți clic pentru a încerca din nou"
+  },
+  "types": {
+    "onrc_certificate": "Certificat ONRC",
+    "farmer_id_card": "Cardul de Fermier",
+    "apia_certificate": "Certificat APIA",
+    "bank_statement": "Extras de Cont",
+    "identity_card": "Carte de Identitate",
+    "other": "Alte Documente"
+  },
+  "status": {
+    "pending": "În așteptarea încărcării",
+    "uploading": "Se încarcă...",
+    "processing": "Se procesează cu OCR...",
+    "completed": "Procesarea OCR completă",
+    "failed": "Procesarea OCR a eșuat",
+    "review": "Necesită verificare manuală"
+  },
+  "confidence": {
+    "title": "Încredere OCR",
+    "high": "Încredere ridicată ({{score}}%)",
+    "medium": "Încredere medie ({{score}}%)",
+    "low": "Încredere scăzută ({{score}}%)",
+    "description": "Nivelul de încredere indică cât de sigur este sistemul OCR despre datele extrase"
+  },
+  "extraction": {
+    "title": "Informații Extrase",
+    "subtitle": "Vă rugăm să verificați și să corectați datele extrase dacă este necesar",
+    "businessName": "Denumirea Afacerii",
+    "cui": "Numărul CUI",
+    "onrcNumber": "Numărul ONRC",
+    "iban": "Contul Bancar (IBAN)",
+    "idNumber": "Numărul de Identitate",
+    "address": "Adresa",
+    "noDataExtracted": "Nu s-au putut extrage date structurate din acest document",
+    "manualEntry": "Vă rugăm să introduceți informațiile manual",
+    "suggestions": "Sugestii OCR",
+    "originalText": "Textul brut extras",
+    "editExtraction": "Editați datele extrase",
+    "confirmExtraction": "Confirmați extragerea",
+    "reprocess": "Reprocesați cu OCR"
+  },
+  "validation": {
+    "fileRequired": "Vă rugăm să încărcați cel puțin un document",
+    "fileSize": "Dimensiunea fișierului trebuie să fie mai mică de 10MB",
+    "fileType": "Sunt acceptate doar fișierele PDF, JPG și PNG",
+    "ocrFailed": "Procesarea OCR a eșuat. Încercați din nou sau introduceți datele manual",
+    "lowConfidence": "Încredere scăzută în datele extrase. Verificați cu atenție",
+    "invalidIban": "IBAN-ul extras pare să fie invalid",
+    "invalidCui": "CUI-ul extras pare să fie invalid"
+  },
+  "actions": {
+    "upload": "Încărcați Document",
+    "remove": "Eliminați Document",
+    "reprocess": "Reprocesați",
+    "approve": "Aprobați Extragerea",
+    "edit": "Editați Datele",
+    "viewOriginal": "Vizualizați Originalul",
+    "downloadPdf": "Descărcați PDF"
+  },
+  "progress": {
+    "uploading": "Se încarcă documentul ({{progress}}%)",
+    "processing": "Se procesează cu OCR...",
+    "extracting": "Se extrag datele structurate...",
+    "validating": "Se validează informațiile extrase..."
+  },
+  "errors": {
+    "uploadFailed": "Încărcarea documentului a eșuat",
+    "processingFailed": "Procesarea OCR a eșuat",
+    "networkError": "Eroare de rețea în timpul încărcării",
+    "serverError": "A apărut o eroare de server",
+    "fileCorrupted": "Fișierul pare să fie corupt",
+    "unsupportedFormat": "Format de fișier neacceptat",
+    "rateLimitExceeded": "Prea multe încărcări. Așteptați un moment."
+  }
+}
