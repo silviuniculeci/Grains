@@ -1,29 +1,24 @@
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   FileText,
   Download,
-  Eye,
   ZoomIn,
   ZoomOut,
   RotateCw,
   CheckCircle,
   AlertCircle,
   Clock,
-  User,
-  Calendar,
   RefreshCw,
   X
 } from 'lucide-react'
-import { ROMANIAN_DOCUMENT_TYPES, type RomanianDocumentType, type DocumentValidationStatus } from '../../../shared/types/romanian-documents'
-import type { OCRResult } from '../../../shared/types/ocr-types'
+import { ROMANIAN_DOCUMENT_TYPES, type RomanianDocumentType, type DocumentValidationStatus } from '@/types/romanian-documents'
+import type { OCRResult } from '@/types/ocr-types'
 
 interface Document {
   id: string
@@ -59,10 +54,7 @@ interface Document {
 
 interface DocumentViewerProps {
   documents: Document[]
-  currentDocumentId?: string
   onDocumentSelect?: (document: Document) => void
-  onDocumentUpdate?: (documentId: string, updates: Partial<Document>) => void
-  onDocumentDelete?: (documentId: string) => void
   showValidationControls?: boolean
   readOnly?: boolean
   className?: string
@@ -70,23 +62,15 @@ interface DocumentViewerProps {
 
 export const DocumentViewer = ({
   documents,
-  currentDocumentId,
   onDocumentSelect,
-  onDocumentUpdate,
-  onDocumentDelete,
   showValidationControls = false,
   readOnly = true,
   className
 }: DocumentViewerProps) => {
-  const { t } = useTranslation(['common', 'documents'])
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null)
   const [viewerOpen, setViewerOpen] = useState(false)
   const [zoom, setZoom] = useState(100)
   const [rotation, setRotation] = useState(0)
-
-  const currentDocument = currentDocumentId
-    ? documents.find(doc => doc.id === currentDocumentId)
-    : null
 
   const handleDocumentClick = (document: Document) => {
     setSelectedDocument(document)

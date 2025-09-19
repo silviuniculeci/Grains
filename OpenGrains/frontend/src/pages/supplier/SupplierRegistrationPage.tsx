@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -25,16 +24,14 @@ interface InvitationData {
 }
 
 export const SupplierRegistrationPage = () => {
-  const { t } = useTranslation(['common', 'supplier'])
   const { invitationId } = useParams<{ invitationId: string }>()
   const navigate = useNavigate()
-  const { user, login } = useAuth()
+  const { } = useAuth()
 
   const [invitation, setInvitation] = useState<InvitationData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [registrationComplete, setRegistrationComplete] = useState(false)
-  const [authMode, setAuthMode] = useState<'login' | 'signup' | 'form'>('form')
 
   useEffect(() => {
     if (invitationId) {

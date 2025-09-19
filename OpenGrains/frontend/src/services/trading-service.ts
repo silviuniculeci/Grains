@@ -3,14 +3,13 @@ import type {
   PurchaseRequest,
   TradingMatch,
   TradingMessage,
-  TradingContract,
   TradingAnalytics,
   TradingFilters,
   TradingSearchResults,
   MarketData,
   GrainType,
   TradingStatus
-} from '../../shared/types/trading-types'
+} from '@/types/trading-types'
 
 export interface CreateSalesOfferRequest {
   grainType: GrainType

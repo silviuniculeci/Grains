@@ -189,7 +189,7 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
       const supplierData: Omit<CreateSupplierData, 'user_id'> = {
         ...formData,
         estimated_volume: formData.estimated_volume ? parseInt(formData.estimated_volume) : undefined,
-        bank_account: cleanBankAccount, // Send null for empty/invalid IBANs
+        bank_account: cleanBankAccount || undefined, // Send undefined for empty/invalid IBANs
         registration_status: 'draft',
       }
 
@@ -229,7 +229,7 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
       const supplierData: Omit<CreateSupplierData, 'user_id'> = {
         ...formData,
         estimated_volume: formData.estimated_volume ? parseInt(formData.estimated_volume) : undefined,
-        bank_account: cleanBankAccount, // Send null for empty/invalid IBANs
+        bank_account: cleanBankAccount || undefined, // Send undefined for empty/invalid IBANs
         registration_status: 'submitted',
       }
 

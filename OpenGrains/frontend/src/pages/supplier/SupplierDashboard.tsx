@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -10,7 +9,6 @@ import {
   FileText,
   TrendingUp,
   TrendingDown,
-  Package,
   Clock,
   CheckCircle,
   AlertCircle,
@@ -18,14 +16,12 @@ import {
   MapPin,
   Phone,
   Mail,
-  Calendar,
   Euro
 } from 'lucide-react'
 import { SupplierService, type SupplierProfile } from '@/services/supplier-service'
 import { DocumentService, type Document } from '@/services/document-service'
 import { DocumentViewer } from '@/components/documents/DocumentViewer'
 import { DocumentUpload } from '@/components/documents/DocumentUpload'
-import { useAuth } from '@/hooks/useAuth'
 
 interface SalesOffer {
   id: string
@@ -51,14 +47,12 @@ interface PurchaseRequest {
 }
 
 export const SupplierDashboard = () => {
-  const { t } = useTranslation(['common', 'supplier'])
-  const { user } = useAuth()
   const [profile, setProfile] = useState<SupplierProfile | null>(null)
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  const [salesOffers, setSalesOffers] = useState<SalesOffer[]>([])
-  const [purchaseRequests, setPurchaseRequests] = useState<PurchaseRequest[]>([])
+  const [salesOffers] = useState<SalesOffer[]>([])
+  const [purchaseRequests] = useState<PurchaseRequest[]>([])
+  const [, setError] = useState<string | null>(null)
   const [showDocumentUpload, setShowDocumentUpload] = useState(false)
 
   useEffect(() => {
@@ -389,8 +383,7 @@ export const SupplierDashboard = () => {
 
             {showDocumentUpload && (
               <DocumentUpload
-                supplierId={profile?.id}
-                onUploadComplete={(uploadedDocs) => {
+                onUploadComplete={() => {
                   // Refresh documents list
                   loadSupplierData()
                   setShowDocumentUpload(false)
@@ -402,13 +395,6 @@ export const SupplierDashboard = () => {
             {documents.length > 0 ? (
               <DocumentViewer
                 documents={documents}
-                onDocumentUpdate={(documentId, updates) => {
-                  setDocuments(prev =>
-                    prev.map(doc =>
-                      doc.id === documentId ? { ...doc, ...updates } : doc
-                    )
-                  )
-                }}
                 readOnly={true}
               />
             ) : (

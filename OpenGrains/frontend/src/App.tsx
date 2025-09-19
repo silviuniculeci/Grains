@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { User, Building2, FileCheck, LogOut } from 'lucide-react'
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
@@ -19,7 +18,7 @@ import { useAuth } from '@/hooks/useAuth'
 
 function App() {
   const { t } = useTranslation(['common', 'forms'])
-  const { user, isLoading: loading, login, logout } = useAuth()
+  const { user, isLoading: loading, logout } = useAuth()
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
 
   const handleAuthSuccess = () => {
@@ -47,9 +46,7 @@ function App() {
     }
 
     // Documents tab - visible to non-supplier roles
-    if (user.role !== 'supplier') {
-      tabs.push('documents')
-    }
+    tabs.push('documents')
 
     // Back office tab - only visible to back office staff and admins
     if (user.role === 'back_office' || user.role === 'admin') {

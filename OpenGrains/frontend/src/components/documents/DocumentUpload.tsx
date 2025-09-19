@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useDropzone } from 'react-dropzone'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -18,8 +17,8 @@ import {
   Download,
   RefreshCw
 } from 'lucide-react'
-import { ROMANIAN_DOCUMENT_TYPES, type RomanianDocumentType } from '../../../shared/types/romanian-documents'
-import type { OCRResult } from '../../../shared/types/ocr-types'
+import { ROMANIAN_DOCUMENT_TYPES, type RomanianDocumentType } from '@/types/romanian-documents'
+import type { OCRResult } from '@/types/ocr-types'
 
 interface DocumentFile {
   id: string
@@ -34,7 +33,6 @@ interface DocumentFile {
 }
 
 interface DocumentUploadProps {
-  supplierId?: string
   onUploadComplete?: (documents: DocumentFile[]) => void
   onDocumentSelect?: (document: DocumentFile) => void
   allowedTypes?: RomanianDocumentType[]
@@ -43,17 +41,14 @@ interface DocumentUploadProps {
 }
 
 export const DocumentUpload = ({
-  supplierId,
   onUploadComplete,
   onDocumentSelect,
   allowedTypes,
   maxFiles = 10,
   className
 }: DocumentUploadProps) => {
-  const { t } = useTranslation(['common', 'documents'])
   const [documents, setDocuments] = useState<DocumentFile[]>([])
   const [selectedType, setSelectedType] = useState<RomanianDocumentType>('onrc_certificate')
-  const [isProcessing, setIsProcessing] = useState(false)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newDocuments: DocumentFile[] = acceptedFiles.map(file => ({
@@ -425,10 +420,12 @@ export const DocumentUpload = ({
                             variant="ghost"
                             size="sm"
                             onClick={() => {
-                              const link = document.createElement('a')
-                              link.href = document.url!
-                              link.download = document.file.name
-                              link.click()
+                              if (document.url) {
+                                const link = window.document.createElement('a')
+                                link.href = document.url
+                                link.download = document.file.name
+                                link.click()
+                              }
                             }}
                           >
                             <Download className="h-4 w-4" />

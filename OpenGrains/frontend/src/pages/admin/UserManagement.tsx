@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -8,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Table,
   TableBody,
@@ -57,15 +55,12 @@ interface CreateUserRequest {
 }
 
 export const UserManagement = () => {
-  const { t } = useTranslation(['common', 'admin'])
   const { user: currentUser } = useAuth()
   const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [filterRole, setFilterRole] = useState<string>('all')
   const [showCreateDialog, setShowCreateDialog] = useState(false)
-  const [editingUser, setEditingUser] = useState<User | null>(null)
 
   const [createForm, setCreateForm] = useState<CreateUserRequest>({
     email: '',
@@ -76,6 +71,7 @@ export const UserManagement = () => {
     language_preference: 'ro',
     send_invitation: true
   })
+  const [, setEditingUser] = useState<User | null>(null)
 
   useEffect(() => {
     loadUsers()
@@ -83,7 +79,6 @@ export const UserManagement = () => {
 
   const loadUsers = async () => {
     try {
-      setLoading(true)
       // TODO: Replace with actual API call
       // const response = await fetch('/api/admin/users')
       // const data = await response.json()
@@ -142,8 +137,6 @@ export const UserManagement = () => {
       setUsers(mockUsers)
     } catch (err: any) {
       setError(err.message || 'Failed to load users')
-    } finally {
-      setLoading(false)
     }
   }
 

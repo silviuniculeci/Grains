@@ -1,5 +1,5 @@
-import type { RomanianDocumentType, DocumentValidationStatus } from '../../shared/types/romanian-documents'
-import type { OCRResult, OCRProcessingRequest } from '../../shared/types/ocr-types'
+import type { RomanianDocumentType, DocumentValidationStatus } from '@/types/romanian-documents'
+import type { OCRResult } from '@/types/ocr-types'
 
 export interface Document {
   id: string
