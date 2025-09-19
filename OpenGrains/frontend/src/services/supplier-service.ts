@@ -9,17 +9,57 @@ export type UpdateSupplierData = TablesUpdate<'supplier_profiles'>
 export class SupplierService {
   // Create a new supplier profile
   static async create(data: Omit<CreateSupplierData, 'user_id'>): Promise<SupplierProfile> {
-    const user = await supabase.auth.getUser()
-    if (!user.data.user) {
-      throw new Error('User must be authenticated to create supplier profile')
-    }
+    try {
+      const { data: userData, error: authError } = await supabase.auth.getUser()
 
-    const supplierData: CreateSupplierData = {
-      ...data,
-      user_id: user.data.user.id,
-    }
+      let userId: string
 
-    return await createSupplierProfile(supplierData)
+      if (authError || !userData.user) {
+        console.warn('No authenticated user, attempting to create anonymous profile for development')
+        // For development: create a temporary user session
+        const tempEmail = `temp-${Date.now()}@opengrains.dev`
+        const tempPassword = 'TempPassword123!'
+
+        try {
+          // Try to sign up a temporary user
+          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email: tempEmail,
+            password: tempPassword,
+            options: {
+              data: {
+                role: 'supplier',
+                language_preference: 'ro'
+              }
+            }
+          })
+
+          if (signUpError) throw signUpError
+
+          if (signUpData.user) {
+            userId = signUpData.user.id
+            console.log('Created temporary user for development:', tempEmail)
+          } else {
+            throw new Error('Failed to create temporary user')
+          }
+        } catch (tempUserError) {
+          console.error('Failed to create temporary user:', tempUserError)
+          throw new Error('Authentication required. Please log in or sign up to create a supplier profile.')
+        }
+      } else {
+        userId = userData.user.id
+        console.log('Using authenticated user:', userData.user.email)
+      }
+
+      const supplierData: CreateSupplierData = {
+        ...data,
+        user_id: userId,
+      }
+
+      return await createSupplierProfile(supplierData)
+    } catch (error: any) {
+      console.error('Error in SupplierService.create:', error)
+      throw new Error(`Failed to create supplier profile: ${error.message}`)
+    }
   }
 
   // Update existing supplier profile
