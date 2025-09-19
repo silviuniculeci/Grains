@@ -1,0 +1,102 @@
+{
+  "dashboard": {
+    "title": "Panou de Control Obiective",
+    "subtitle": "Urmăriți obiectivele de vânzări și indicatorii de performanță",
+    "overview": "Prezentare Generală",
+    "performance": "Performanță",
+    "zones": "Managementul Zonelor"
+  },
+  "metrics": {
+    "targetVolume": "Volumul Țintă",
+    "actualVolume": "Volumul Realizat",
+    "targetValue": "Valoarea Țintă",
+    "actualValue": "Valoarea Realizată",
+    "targetSuppliers": "Furnizori Țintă",
+    "actualSuppliers": "Furnizori Activi",
+    "completion": "Rata de Finalizare",
+    "progress": "Progres",
+    "remaining": "Rămas"
+  },
+  "status": {
+    "onTrack": "Pe Drum Bun",
+    "atRisk": "La Risc",
+    "exceeded": "Depășit",
+    "missed": "Ratat",
+    "pending": "În Așteptare"
+  },
+  "zones": {
+    "title": "Zone de Vânzări",
+    "myZones": "Zonele Mele",
+    "allZones": "Toate Zonele",
+    "performance": "Performanța Zonei",
+    "potential": "Potențialul Pieței",
+    "coverage": "Acoperire",
+    "suppliers": "Furnizori",
+    "activeSuppliers": "Furnizori Activi",
+    "newSuppliers": "Furnizori Noi",
+    "historicalData": "Date Istorice"
+  },
+  "time": {
+    "quarterly": "Trimestrial",
+    "yearly": "Anual",
+    "q1": "T1",
+    "q2": "T2",
+    "q3": "T3",
+    "q4": "T4",
+    "currentQuarter": "Trimestrul Curent",
+    "currentYear": "Anul Curent",
+    "lastQuarter": "Trimestrul Trecut",
+    "lastYear": "Anul Trecut"
+  },
+  "charts": {
+    "volumeProgress": "Progresul Volumului",
+    "valueProgress": "Progresul Valorii",
+    "supplierProgress": "Progresul Furnizorilor",
+    "zoneComparison": "Comparația Zonelor",
+    "monthlyTrend": "Trendul Lunar",
+    "performanceOverTime": "Performanța în Timp",
+    "targetVsActual": "Țintă vs Realizat"
+  },
+  "actions": {
+    "setTarget": "Setați Obiectiv",
+    "updateTarget": "Actualizați Obiectiv",
+    "viewDetails": "Vizualizați Detalii",
+    "exportReport": "Exportați Raport",
+    "generateReport": "Generați Raport",
+    "scheduleReport": "Programați Raport",
+    "shareTarget": "Partajați Obiectiv",
+    "assignZone": "Atribuiți Zona"
+  },
+  "forms": {
+    "createTarget": "Creați Obiectiv Nou",
+    "editTarget": "Editați Obiectiv",
+    "targetVolume": "Volumul Țintă (tone)",
+    "targetValue": "Valoarea Țintă (RON)",
+    "targetSuppliers": "Numărul Țintă de Furnizori",
+    "timeframe": "Perioada de Timp",
+    "zone": "Zona de Vânzări",
+    "notes": "Note",
+    "priority": "Prioritate",
+    "high": "Ridicată",
+    "medium": "Medie",
+    "low": "Scăzută"
+  },
+  "calculations": {
+    "automatic": "Calculare Automată",
+    "manual": "Înlocuire Manuală",
+    "historical": "Pe Baza Datelor Istorice",
+    "market": "Potențialul Pieței",
+    "seasonal": "Ajustare Sezonieră",
+    "lastUpdate": "Ultima Actualizare",
+    "nextUpdate": "Următoarea Actualizare",
+    "updateFrequency": "Frecvența Actualizării"
+  },
+  "notifications": {
+    "targetReached": "Felicitări! Obiectiv atins pentru {{zone}}",
+    "targetExceeded": "Obiectiv depășit cu {{percentage}}% în {{zone}}",
+    "targetAtRisk": "Obiectiv la risc în {{zone}} - {{completion}}% complet",
+    "targetMissed": "Obiectiv ratat în {{zone}} - doar {{completion}}% realizat",
+    "newSupplier": "Furnizor nou adăugat în {{zone}}",
+    "targetUpdated": "Obiectiv actualizat pentru {{zone}}"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "title": "Document Upload",
+  "subtitle": "Upload your business documents for automatic processing",
+  "upload": {
+    "dropzone": "Drop files here or click to browse",
+    "dropzoneActive": "Drop the files here...",
+    "accepted": "PDF, JPG, PNG files up to 10MB",
+    "processing": "Processing document...",
+    "success": "Document uploaded successfully",
+    "error": "Failed to upload document",
+    "retry": "Click to retry upload"
+  },
+  "types": {
+    "onrc_certificate": "ONRC Certificate",
+    "farmer_id_card": "Farmer ID Card",
+    "apia_certificate": "APIA Certificate",
+    "bank_statement": "Bank Statement",
+    "identity_card": "Identity Card",
+    "other": "Other Document"
+  },
+  "status": {
+    "pending": "Waiting for upload",
+    "uploading": "Uploading...",
+    "processing": "Processing with OCR...",
+    "completed": "OCR processing completed",
+    "failed": "OCR processing failed",
+    "review": "Requires manual review"
+  },
+  "confidence": {
+    "title": "OCR Confidence",
+    "high": "High confidence ({{score}}%)",
+    "medium": "Medium confidence ({{score}}%)",
+    "low": "Low confidence ({{score}}%)",
+    "description": "Confidence level indicates how certain the OCR system is about the extracted data"
+  },
+  "extraction": {
+    "title": "Extracted Information",
+    "subtitle": "Please review and correct the extracted data if needed",
+    "businessName": "Business Name",
+    "cui": "CUI Number",
+    "onrcNumber": "ONRC Number",
+    "iban": "Bank Account (IBAN)",
+    "idNumber": "ID Number",
+    "address": "Address",
+    "noDataExtracted": "No structured data could be extracted from this document",
+    "manualEntry": "Please enter the information manually",
+    "suggestions": "OCR Suggestions",
+    "originalText": "Raw extracted text",
+    "editExtraction": "Edit extracted data",
+    "confirmExtraction": "Confirm extraction",
+    "reprocess": "Reprocess with OCR"
+  },
+  "validation": {
+    "fileRequired": "Please upload at least one document",
+    "fileSize": "File size must be less than 10MB",
+    "fileType": "Only PDF, JPG, and PNG files are supported",
+    "ocrFailed": "OCR processing failed. Please try again or enter data manually",
+    "lowConfidence": "Low confidence in extracted data. Please review carefully",
+    "invalidIban": "Extracted IBAN appears to be invalid",
+    "invalidCui": "Extracted CUI appears to be invalid"
+  },
+  "actions": {
+    "upload": "Upload Document",
+    "remove": "Remove Document",
+    "reprocess": "Reprocess",
+    "approve": "Approve Extraction",
+    "edit": "Edit Data",
+    "viewOriginal": "View Original",
+    "downloadPdf": "Download PDF"
+  },
+  "progress": {
+    "uploading": "Uploading document ({{progress}}%)",
+    "processing": "Processing with OCR...",
+    "extracting": "Extracting structured data...",
+    "validating": "Validating extracted information..."
+  },
+  "errors": {
+    "uploadFailed": "Failed to upload document",
+    "processingFailed": "OCR processing failed",
+    "networkError": "Network error during upload",
+    "serverError": "Server error occurred",
+    "fileCorrupted": "File appears to be corrupted",
+    "unsupportedFormat": "Unsupported file format",
+    "rateLimitExceeded": "Too many uploads. Please wait a moment."
+  }
+}

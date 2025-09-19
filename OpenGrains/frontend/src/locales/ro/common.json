@@ -1,0 +1,75 @@
+{
+  "appName": "OpenGrains",
+  "navigation": {
+    "dashboard": "Panou de control",
+    "suppliers": "Furnizori",
+    "targets": "Obiective",
+    "offers": "Oferte",
+    "documents": "Documente",
+    "profile": "Profil",
+    "settings": "Setări",
+    "logout": "Deconectare"
+  },
+  "buttons": {
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "submit": "Trimite",
+    "edit": "Editează",
+    "delete": "Șterge",
+    "upload": "Încarcă",
+    "download": "Descarcă",
+    "approve": "Aprobă",
+    "reject": "Respinge",
+    "retry": "Încearcă din nou",
+    "continue": "Continuă",
+    "back": "Înapoi",
+    "next": "Următorul",
+    "close": "Închide",
+    "confirm": "Confirmă",
+    "search": "Caută",
+    "filter": "Filtrează",
+    "reset": "Resetează",
+    "export": "Exportă"
+  },
+  "status": {
+    "pending": "În așteptare",
+    "inProgress": "În progres",
+    "completed": "Finalizat",
+    "approved": "Aprobat",
+    "rejected": "Respins",
+    "failed": "Eșuat",
+    "success": "Succes",
+    "error": "Eroare",
+    "warning": "Avertisment",
+    "info": "Informație"
+  },
+  "messages": {
+    "loading": "Se încarcă...",
+    "saving": "Se salvează...",
+    "saved": "Salvat cu succes",
+    "error": "A apărut o eroare",
+    "noData": "Nu există date disponibile",
+    "confirmDelete": "Sunteți sigur că doriți să ștergeți acest element?",
+    "unsavedChanges": "Aveți modificări nesalvate. Sunteți sigur că doriți să părăsiți?",
+    "sessionExpired": "Sesiunea a expirat. Vă rugăm să vă autentificați din nou.",
+    "networkError": "Eroare de rețea. Verificați conexiunea dvs.",
+    "accessDenied": "Acces interzis. Nu aveți permisiunea să vizualizați acest conținut."
+  },
+  "time": {
+    "seconds": "{{count}} secundă",
+    "seconds_other": "{{count}} secunde",
+    "minutes": "{{count}} minut",
+    "minutes_other": "{{count}} minute",
+    "hours": "{{count}} oră",
+    "hours_other": "{{count}} ore",
+    "days": "{{count}} zi",
+    "days_other": "{{count}} zile",
+    "ago": "în urmă",
+    "justNow": "acum"
+  },
+  "language": {
+    "current": "Română",
+    "switch": "Schimbă în Engleză",
+    "switchSuccess": "Limba a fost schimbată în română"
+  }
+}

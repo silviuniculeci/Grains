@@ -1,0 +1,98 @@
+{
+  "messages": {
+    "required": "Acest câmp este obligatoriu",
+    "email": "Vă rugăm să introduceți o adresă de email validă",
+    "phone": "Vă rugăm să introduceți un număr de telefon românesc valid",
+    "minLength": "Trebuie să aibă cel puțin {{min}} caractere",
+    "maxLength": "Trebuie să aibă cel mult {{max}} caractere",
+    "min": "Trebuie să fie cel puțin {{min}}",
+    "max": "Trebuie să fie cel mult {{max}}",
+    "pattern": "Vă rugăm să introduceți un format valid",
+    "numeric": "Trebuie să conțină doar cifre",
+    "alphanumeric": "Trebuie să conțină doar litere și cifre",
+    "positiveNumber": "Trebuie să fie un număr pozitiv",
+    "integerNumber": "Trebuie să fie un număr întreg",
+    "decimalNumber": "Trebuie să fie un număr zecimal valid"
+  },
+  "romanian": {
+    "cui": {
+      "invalid": "Format CUI românesc invalid",
+      "wrongLength": "CUI trebuie să aibă 2-10 cifre",
+      "checksum": "Validarea sumei de control CUI a eșuat",
+      "format": "CUI trebuie să înceapă cu 'RO' urmat de cifre sau să conțină doar cifre"
+    },
+    "iban": {
+      "invalid": "Format IBAN românesc invalid",
+      "wrongLength": "IBAN românesc trebuie să aibă 24 de caractere",
+      "wrongCountry": "IBAN trebuie să fie din România (să înceapă cu RO)",
+      "checksum": "Validarea sumei de control IBAN a eșuat (mod-97)",
+      "bankCode": "Cod de bancă românesc invalid",
+      "format": "Format IBAN: RO49 AAAA 1B31 0075 9384 0000"
+    },
+    "onrc": {
+      "invalid": "Format număr de înregistrare ONRC invalid",
+      "pattern": "Format ONRC: J01/1234/2023 (Județ/Număr/An)",
+      "county": "Cod de județ românesc invalid",
+      "year": "An de înregistrare invalid",
+      "number": "Număr de înregistrare invalid"
+    },
+    "phone": {
+      "invalid": "Număr de telefon românesc invalid",
+      "mobile": "Format număr mobil: +40 7XX XXX XXX",
+      "landline": "Format fix: +40 2XX XXX XXX sau +40 3XX XXX XXX",
+      "format": "Telefonul trebuie să înceapă cu +40 sau 0"
+    },
+    "postalCode": {
+      "invalid": "Cod poștal românesc invalid",
+      "format": "Codul poștal trebuie să aibă 6 cifre (ex: 100001)",
+      "wrongLength": "Codul poștal trebuie să aibă exact 6 cifre"
+    },
+    "idCard": {
+      "invalid": "Număr de carte de identitate românesc invalid",
+      "format": "Format CI: 1234567890123 (13 cifre)",
+      "wrongLength": "Numărul CI trebuie să aibă exact 13 cifre",
+      "gender": "Cifra de gen invalidă (prima cifră)",
+      "birthDate": "Data nașterii invalidă în numărul CI",
+      "county": "Cod de județ invalid în numărul CI",
+      "checksum": "Validarea sumei de control pentru numărul CI a eșuat"
+    }
+  },
+  "business": {
+    "duplicateEmail": "Această adresă de email este deja înregistrată",
+    "duplicateCui": "Acest CUI este deja înregistrat",
+    "duplicateIban": "Acest IBAN este deja înregistrat",
+    "duplicateOnrc": "Acest număr ONRC este deja înregistrat",
+    "invalidBusinessType": "Vă rugăm să selectați un tip de afacere valid",
+    "addressRequired": "Adresa completă este necesară pentru înregistrarea afacerii",
+    "contactRequired": "Informațiile de contact principale sunt necesare"
+  },
+  "documents": {
+    "required": "Este necesar cel puțin un document",
+    "fileSize": "Dimensiunea fișierului nu poate depăși {{maxSize}}MB",
+    "fileType": "Sunt permise doar fișierele {{allowedTypes}}",
+    "uploadFailed": "Încărcarea documentului a eșuat",
+    "processingFailed": "Procesarea documentului a eșuat",
+    "invalidDocument": "Documentul pare să fie invalid sau corupt",
+    "ocrFailed": "Procesarea OCR a eșuat - încercați din nou",
+    "lowConfidence": "Încrederea OCR este scăzută - verificați datele extrase",
+    "missingSignature": "Documentul necesită o semnătură oficială",
+    "expired": "Documentul a expirat",
+    "wrongType": "Tipul documentului nu se potrivește cu categoria selectată"
+  },
+  "grains": {
+    "required": "Vă rugăm să selectați cel puțin un tip de cereale",
+    "volumeRequired": "Volumul estimat este necesar",
+    "volumeRange": "Volumul trebuie să fie între {{min}} și {{max}} tone",
+    "unrealisticVolume": "Volumul pare nerealist pentru tipurile de cereale selectate",
+    "seasonalAvailability": "Unele cereale pot să nu fie disponibile în toate anotimpurile"
+  },
+  "targets": {
+    "volumeRequired": "Volumul țintă este necesar",
+    "valueRequired": "Valoarea țintă este necesară",
+    "suppliersRequired": "Numărul țintă de furnizori este necesar",
+    "unrealisticTarget": "Obiectivul pare nerealist pe baza datelor istorice",
+    "pastDate": "Data țintă nu poate fi în trecut",
+    "conflictingTargets": "Acest obiectiv intră în conflict cu obiectivele existente",
+    "zoneRequired": "Zona de vânzări trebuie selectată"
+  }
+}
