@@ -11,8 +11,8 @@ import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
 import { LoginForm } from '@/components/auth/LoginForm'
 import { SignUpForm } from '@/components/auth/SignUpForm'
 import { SupplierRegistrationForm } from '@/components/forms/SupplierRegistrationForm'
-import { DocumentUpload } from '@/components/upload/DocumentUpload'
 import { SupplierSharingLink } from '@/components/sharing/SupplierSharingLink'
+import { SupplierValidation } from '@/pages/backoffice/SupplierValidation'
 import { getCurrentUser, signOut } from '@/lib/supabase'
 
 function App() {
@@ -20,8 +20,6 @@ function App() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
-  const [supplierFormCompleted, setSupplierFormCompleted] = useState(false)
-  const [currentSupplierId, setCurrentSupplierId] = useState<string | null>(null)
 
   useEffect(() => {
     checkUser()
@@ -46,16 +44,9 @@ function App() {
     try {
       await signOut()
       setUser(null)
-      setSupplierFormCompleted(false)
-      setCurrentSupplierId(null)
     } catch (error) {
       console.error('Logout error:', error)
     }
-  }
-
-  const handleSupplierRegistrationSuccess = (supplierId: string) => {
-    setCurrentSupplierId(supplierId)
-    setSupplierFormCompleted(true)
   }
 
   if (loading) {
@@ -155,8 +146,8 @@ function App() {
                     </CardHeader>
                     <CardContent className="pt-0">
                       <SupplierRegistrationForm
-                        onSuccess={handleSupplierRegistrationSuccess}
-                        onSaveDraft={(id) => setCurrentSupplierId(id)}
+                        onSuccess={(id) => console.log('Supplier registered:', id)}
+                        onSaveDraft={(id) => console.log('Draft saved:', id)}
                       />
                     </CardContent>
                   </Card>
@@ -173,83 +164,80 @@ function App() {
             </TabsContent>
 
             <TabsContent value="supplier" className="space-y-6">
-              {!supplierFormCompleted ? (
-                <SupplierRegistrationForm
-                  onSuccess={handleSupplierRegistrationSuccess}
-                  onSaveDraft={(id) => setCurrentSupplierId(id)}
-                />
-              ) : (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Building2 className="h-5 w-5" />
-                      Înregistrare completă
-                    </CardTitle>
-                    <CardDescription>
-                      Profilul de furnizor a fost trimis. Accesați tab-ul "Documente" pentru a încărca documentele justificative.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Badge variant="default" className="mb-4">
-                      Înregistrare trimisă cu succes
-                    </Badge>
-                    <p className="text-sm text-muted-foreground">
-                      Puteți acum încărca documentele justificative pentru verificare în tab-ul "Documente".
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Building2 className="h-5 w-5" />
+                    Acces Furnizori
+                  </CardTitle>
+                  <CardDescription>
+                    Înregistrarea furnizorilor se face prin link-uri de invitație trimise de agenți
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="text-center py-8">
+                    <Building2 className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-xl font-semibold mb-3">Pentru Furnizori</h3>
+                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                      Dacă sunteți furnizor, veți primi un link de înregistrare prin email sau WhatsApp de la agentul dumneavoastră de vânzări.
                     </p>
-                  </CardContent>
-                </Card>
-              )}
+                    <div className="space-y-3">
+                      <Badge variant="outline" className="block w-fit mx-auto">
+                        📧 Link prin Email
+                      </Badge>
+                      <Badge variant="outline" className="block w-fit mx-auto">
+                        📱 Link prin WhatsApp
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <Alert>
+                    <AlertDescription>
+                      <strong>Nu aveți link de înregistrare?</strong><br />
+                      Contactați agentul dumneavoastră de vânzări OpenGrains pentru a primi link-ul de înregistrare personalizat.
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
             </TabsContent>
 
             <TabsContent value="documents" className="space-y-6">
-              {currentSupplierId ? (
-                <DocumentUpload
-                  supplierId={currentSupplierId}
-                  onUploadSuccess={(documentId) => {
-                    console.log('Document uploaded:', documentId)
-                  }}
-                />
-              ) : (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Încărcare documente</CardTitle>
-                    <CardDescription>
-                      Completați mai întâi înregistrarea ca furnizor pentru a putea încărca documente.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Alert>
-                      <AlertDescription>
-                        Pentru a încărca documente, trebuie să completați mai întâi profilul de furnizor în tab-ul "Furnizori".
-                      </AlertDescription>
-                    </Alert>
-                  </CardContent>
-                </Card>
-              )}
-            </TabsContent>
-
-            <TabsContent value="backoffice" className="space-y-6">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileCheck className="h-5 w-5" />
-                    Supplier Validation Dashboard
+                    Managementul Documentelor
                   </CardTitle>
                   <CardDescription>
-                    Review and validate pending supplier registrations
+                    Documentele sunt încărcate prin formularul de înregistrare sau prin link-urile de invitație
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-8">
-                    <FileCheck className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-lg font-semibold mb-2">Back Office Dashboard</h3>
-                    <p className="text-muted-foreground mb-4">
-                      This feature will display pending supplier registrations for review and approval.
+                    <FileCheck className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-xl font-semibold mb-3">Încărcare Documente</h3>
+                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                      Documentele sunt încărcate automat în timpul procesului de înregistrare prin:
                     </p>
-                    <Badge variant="outline">Coming Soon</Badge>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
+                      <div className="border rounded-lg p-4">
+                        <User className="h-8 w-8 mx-auto mb-2 text-blue-500" />
+                        <h4 className="font-medium mb-1">Agent Vânzări</h4>
+                        <p className="text-sm text-muted-foreground">În timpul vizitei la fermier</p>
+                      </div>
+                      <div className="border rounded-lg p-4">
+                        <Building2 className="h-8 w-8 mx-auto mb-2 text-green-500" />
+                        <h4 className="font-medium mb-1">Link Invitație</h4>
+                        <p className="text-sm text-muted-foreground">Furnizor auto-înregistrare</p>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="backoffice" className="space-y-6">
+              <SupplierValidation />
             </TabsContent>
           </Tabs>
         </main>
