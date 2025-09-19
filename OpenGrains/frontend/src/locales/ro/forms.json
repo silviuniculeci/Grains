@@ -2,13 +2,24 @@
   "supplier": {
     "title": "Înregistrare Furnizor",
     "subtitle": "Completați profilul de furnizor pentru a începe tranzacțiile cu OpenGrains",
+    "description": "Înregistrați-vă ca furnizor de cereale la OpenGrains",
+    "progress": "Progres",
+    "draft_saved": "Schiță salvată cu succes",
+    "submitted_success": "Înregistrarea a fost trimisă cu succes",
     "steps": {
+      "basic_info": "Informații de bază",
+      "address_info": "Informații despre adresă",
+      "business_info": "Informații despre afacere",
       "contact": "Informații de Contact",
       "business": "Detalii Afacere",
       "address": "Adresă",
       "grains": "Tipuri de Cereale",
       "documents": "Documente",
       "review": "Revizuire și Trimitere"
+    },
+    "businessTypes": {
+      "PF": "Persoană Fizică (PF)",
+      "PJ": "Persoană Juridică (PJ)"
     },
     "fields": {
       "businessName": "Denumirea Afacerii",
@@ -45,6 +56,16 @@
       "cui": "RO12345678",
       "onrcNumber": "J01/1234/2023",
       "apiaId": "Introduceți ID-ul APIA"
+    },
+    "grainTypes": {
+      "wheat": "Grâu",
+      "corn": "Porumb",
+      "barley": "Orz",
+      "oats": "Ovăz",
+      "rye": "Secară",
+      "sunflower": "Floarea-soarelui",
+      "soybean": "Soia",
+      "rapeseed": "Rapiță"
     }
   },
   "validation": {
@@ -63,6 +84,11 @@
     "unique": "Această valoare trebuie să fie unică",
     "match": "Câmpurile trebuie să se potrivească"
   },
+  "errors": {
+    "required_fields": "Vă rugăm să completați toate câmpurile obligatorii",
+    "save_failed": "Salvarea datelor din formular a eșuat",
+    "submit_failed": "Trimiterea înregistrării a eșuat"
+  },
   "grains": {
     "wheat": "Grâu",
     "corn": "Porumb",
@@ -71,7 +97,7 @@
     "rapeseed": "Rapiță",
     "oats": "Ovăz",
     "rye": "Secară",
-    "soybeans": "Soia",
+    "soybean": "Soia",
     "other": "Altele"
   },
   "counties": {
