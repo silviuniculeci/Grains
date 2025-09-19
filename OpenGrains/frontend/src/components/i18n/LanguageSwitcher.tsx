@@ -10,7 +10,34 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { changeLanguage, getCurrentLanguage, type SupportedLanguage } from '@/i18n/config'
-import { SUPPORTED_LANGUAGES } from '../../../shared/types/i18n-types'
+
+// Local supported languages configuration
+const SUPPORTED_LANGUAGES = {
+  en: {
+    code: 'en' as const,
+    name: 'English',
+    nativeName: 'English',
+    flag: '🇺🇸',
+    isDefault: true,
+    isRTL: false,
+    dateFormat: 'MM/DD/YYYY',
+    numberFormat: '1,234.56',
+    currencyFormat: 'RON 1,234.56',
+    locale: 'en-US',
+  },
+  ro: {
+    code: 'ro' as const,
+    name: 'Romanian',
+    nativeName: 'Română',
+    flag: '🇷🇴',
+    isDefault: false,
+    isRTL: false,
+    dateFormat: 'DD.MM.YYYY',
+    numberFormat: '1.234,56',
+    currencyFormat: '1.234,56 RON',
+    locale: 'ro-RO',
+  },
+}
 
 interface LanguageSwitcherProps {
   className?: string

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import './App.css'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,16 +9,21 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Upload, User, Building2, FileCheck } from 'lucide-react'
+import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
 
 function App() {
   const [supplierName, setSupplierName] = useState('')
+  const { t } = useTranslation(['common', 'forms'])
 
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
       <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-8">
+        <header className="text-center mb-8 relative">
+          <div className="absolute top-0 right-0">
+            <LanguageSwitcher />
+          </div>
           <h1 className="text-4xl font-bold text-foreground mb-2">
-            OpenGrains
+            {t('common:appName')}
           </h1>
           <p className="text-lg text-muted-foreground">
             Supplier Engagement Module
@@ -31,7 +37,7 @@ function App() {
           <Tabs defaultValue="agent" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="agent">Sales Agent</TabsTrigger>
-              <TabsTrigger value="supplier">Supplier Portal</TabsTrigger>
+              <TabsTrigger value="supplier">{t('common:navigation.suppliers')}</TabsTrigger>
               <TabsTrigger value="backoffice">Back Office</TabsTrigger>
             </TabsList>
 
@@ -49,16 +55,16 @@ function App() {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="supplierName">Business Name</Label>
+                      <Label htmlFor="supplierName">{t('forms:supplier.fields.businessName')}</Label>
                       <Input
                         id="supplierName"
-                        placeholder="Enter supplier business name"
+                        placeholder={t('forms:supplier.placeholders.businessName')}
                         value={supplierName}
                         onChange={(e) => setSupplierName(e.target.value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="businessType">Business Type</Label>
+                      <Label htmlFor="businessType">{t('forms:supplier.fields.businessType')}</Label>
                       <Input
                         id="businessType"
                         placeholder="e.g., Family Farm"
@@ -72,8 +78,8 @@ function App() {
                     <p className="text-sm text-muted-foreground">Step 1 of 3: Basic Information</p>
                   </div>
                   <div className="flex gap-2">
-                    <Button>Continue Registration</Button>
-                    <Button variant="outline">Save Draft</Button>
+                    <Button>{t('common:buttons.continue')}</Button>
+                    <Button variant="outline">{t('common:buttons.save')}</Button>
                   </div>
                 </CardContent>
               </Card>
