@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import {
@@ -21,7 +20,6 @@ import {
   MapPin,
   Building2,
   Search,
-  Filter,
   MessageSquare,
   Download,
   Brain,
@@ -140,7 +138,7 @@ export const SupplierValidation = () => {
     }
   }
 
-  const loadSupplierDocuments = async (supplierId: string) => {
+  const loadSupplierDocuments = async (_supplierId: string) => {
     try {
       // TODO: Replace with actual API call
       const mockDocuments: Document[] = [

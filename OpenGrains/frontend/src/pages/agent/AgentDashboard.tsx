@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { AlertCircle, Users, MapPin, Plus, Search, Filter, CheckCircle, Clock, AlertTriangle } from 'lucide-react'
+import { AlertCircle, Users, MapPin, Plus, Search, CheckCircle, Clock, AlertTriangle } from 'lucide-react'
 
 interface Farmer {
   id: string

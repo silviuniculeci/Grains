@@ -47,7 +47,7 @@ interface FarmerInvitationSystemProps {
 }
 
 export const FarmerInvitationSystem = ({
-  farmerId,
+  farmerId: _farmerId,
   farmerName,
   farmerPhone,
   farmerEmail,

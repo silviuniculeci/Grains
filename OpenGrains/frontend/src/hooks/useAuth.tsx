@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth()
   }, [])
 
-  const login = async (email: string, password: string): Promise<User> => {
+  const login = async (email: string, _password: string): Promise<User> => {
     setIsLoading(true)
     try {
       // TODO: Replace with actual API call

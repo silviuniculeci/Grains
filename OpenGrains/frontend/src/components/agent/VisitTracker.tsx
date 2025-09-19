@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -9,18 +9,12 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
   Calendar as CalendarIcon,
   MapPin,
   Clock,
-  User,
   Plus,
   Search,
-  Filter,
-  Edit,
-  Eye,
   CheckCircle,
   AlertTriangle,
   Navigation,
@@ -28,8 +22,6 @@ import {
   Camera,
   FileText
 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ro } from 'date-fns/locale'
 
 interface Visit {
   id: string
@@ -70,7 +62,6 @@ interface VisitTrackerProps {
 export const VisitTracker = ({ agentId, farmerId, mode = 'dashboard' }: VisitTrackerProps) => {
   const { t } = useTranslation(['common', 'agent'])
   const [visits, setVisits] = useState<Visit[]>([])
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [showNewVisitDialog, setShowNewVisitDialog] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
@@ -81,7 +72,7 @@ export const VisitTracker = ({ agentId, farmerId, mode = 'dashboard' }: VisitTra
   const [newVisit, setNewVisit] = useState<Partial<Visit>>({
     farmer_name: '',
     farmer_phone: '',
-    visit_date: format(new Date(), 'yyyy-MM-dd'),
+    visit_date: new Date().toISOString().split('T')[0],
     visit_time: '10:00',
     location: {
       address: '',
@@ -247,7 +238,7 @@ export const VisitTracker = ({ agentId, farmerId, mode = 'dashboard' }: VisitTra
       setNewVisit({
         farmer_name: '',
         farmer_phone: '',
-        visit_date: format(new Date(), 'yyyy-MM-dd'),
+        visit_date: new Date().toISOString().split('T')[0],
         visit_time: '10:00',
         location: { address: '', city: '', county: '' },
         visit_type: 'initial_contact',
@@ -507,7 +498,7 @@ export const VisitTracker = ({ agentId, farmerId, mode = 'dashboard' }: VisitTra
                     <div className="text-sm text-muted-foreground space-y-1">
                       <div className="flex items-center gap-2">
                         <CalendarIcon className="w-4 h-4" />
-                        {format(new Date(visit.visit_date), 'dd MMMM yyyy', { locale: ro })} la {visit.visit_time}
+                        {new Date(visit.visit_date).toLocaleDateString('ro-RO')} la {visit.visit_time}
                       </div>
                       <div className="flex items-center gap-2">
                         <MapPin className="w-4 h-4" />
@@ -593,7 +584,7 @@ export const VisitTracker = ({ agentId, farmerId, mode = 'dashboard' }: VisitTra
                       {t('agent:visits.follow_up_required')}
                     </div>
                     <div className="text-sm text-yellow-700">
-                      <strong>{t('agent:visits.follow_up_date')}:</strong> {format(new Date(visit.follow_up_date), 'dd MMMM yyyy', { locale: ro })}
+                      <strong>{t('agent:visits.follow_up_date')}:</strong> {new Date(visit.follow_up_date).toLocaleDateString('ro-RO')}
                     </div>
                     {visit.follow_up_notes && (
                       <div className="text-sm text-yellow-700 mt-1">
