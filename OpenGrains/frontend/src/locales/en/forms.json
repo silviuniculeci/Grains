@@ -2,13 +2,34 @@
   "supplier": {
     "title": "Supplier Registration",
     "subtitle": "Complete your supplier profile to start trading with OpenGrains",
+    "description": "Register as a grain supplier with OpenGrains",
+    "progress": "Progress",
+    "draft_saved": "Draft saved successfully",
+    "submitted_success": "Registration submitted successfully",
     "steps": {
+      "basic_info": "Basic Information",
+      "address_info": "Address Information",
+      "business_info": "Business Information",
       "contact": "Contact Information",
       "business": "Business Details",
       "address": "Address",
       "grains": "Grain Types",
       "documents": "Documents",
       "review": "Review & Submit"
+    },
+    "businessTypes": {
+      "PF": "Individual (PF)",
+      "PJ": "Legal Entity (PJ)"
+    },
+    "grainTypes": {
+      "wheat": "Wheat",
+      "corn": "Corn",
+      "barley": "Barley",
+      "oats": "Oats",
+      "rye": "Rye",
+      "sunflower": "Sunflower",
+      "soybean": "Soybean",
+      "rapeseed": "Rapeseed"
     },
     "fields": {
       "businessName": "Business Name",
@@ -37,8 +58,10 @@
       "contactPerson": "Full name of contact person",
       "email": "contact@example.com",
       "phone": "+40 xxx xxx xxx",
+      "alternativePhone": "+40 xxx xxx xxx",
       "address": "Street address, number",
       "city": "City name",
+      "county": "Select county",
       "postalCode": "000000",
       "estimatedVolume": "Enter estimated volume",
       "bankAccount": "RO49 AAAA 1B31 0075 9384 0000",
@@ -62,6 +85,11 @@
     "fileType": "Only {{types}} files are allowed",
     "unique": "This value must be unique",
     "match": "Fields must match"
+  },
+  "errors": {
+    "required_fields": "Please fill in all required fields",
+    "save_failed": "Failed to save form data",
+    "submit_failed": "Failed to submit registration"
   },
   "grains": {
     "wheat": "Wheat",

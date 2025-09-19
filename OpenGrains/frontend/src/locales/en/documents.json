@@ -1,0 +1,33 @@
+{
+  "upload": {
+    "title": "Document Upload",
+    "description": "Upload supporting documents for verification",
+    "document_type": "Document Type",
+    "select_type": "Select document type",
+    "drop_files": "Drop files here",
+    "or_click": "or click to browse",
+    "browse_files": "Browse Files",
+    "max_size": "Max file size",
+    "accepted_formats": "Accepted formats",
+    "remaining_slots": "Remaining slots",
+    "uploaded_files": "Uploaded Files",
+    "uploading": "Uploading",
+    "completed": "Completed",
+    "failed": "Failed",
+    "view": "View",
+    "ocr_processing": "OCR processing will begin automatically",
+    "total_files": "Total files"
+  },
+  "types": {
+    "onrc_certificate": "ONRC Certificate",
+    "farmer_id_card": "Farmer ID Card",
+    "apia_certificate": "APIA Certificate",
+    "bank_statement": "Bank Statement",
+    "identity_card": "Identity Card",
+    "other": "Other Document"
+  },
+  "errors": {
+    "file_too_large": "File size exceeds 10MB limit",
+    "invalid_file_type": "Invalid file type. Please use JPG, PNG, WebP, or PDF."
+  }
+}

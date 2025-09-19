@@ -12,6 +12,7 @@
   },
   "buttons": {
     "save": "Save",
+    "save_draft": "Save Draft",
     "cancel": "Cancel",
     "submit": "Submit",
     "edit": "Edit",
@@ -24,6 +25,7 @@
     "continue": "Continue",
     "back": "Back",
     "next": "Next",
+    "previous": "Previous",
     "close": "Close",
     "confirm": "Confirm",
     "search": "Search",
@@ -55,6 +57,8 @@
     "networkError": "Network error. Please check your connection.",
     "accessDenied": "Access denied. You don't have permission to view this content."
   },
+  "loading": "Loading...",
+  "logout": "Logout",
   "time": {
     "seconds": "{{count}} second",
     "seconds_other": "{{count}} seconds",
