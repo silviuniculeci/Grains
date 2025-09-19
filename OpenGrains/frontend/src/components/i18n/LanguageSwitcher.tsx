@@ -44,7 +44,7 @@ interface LanguageSwitcherProps {
   variant?: 'default' | 'compact' | 'mobile'
   showFlag?: boolean
   showText?: boolean
-  alignment?: 'left' | 'right'
+  alignment?: 'start' | 'end' | 'center'
 }
 
 /**
@@ -58,7 +58,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   variant = 'default',
   showFlag = true,
   showText = true,
-  alignment = 'right',
+  alignment = 'end',
 }) => {
   const { t } = useTranslation(['common'])
   const [isLoading, setIsLoading] = useState(false)
