@@ -13,41 +13,59 @@ import { SignUpForm } from '@/components/auth/SignUpForm'
 import { SupplierRegistrationForm } from '@/components/forms/SupplierRegistrationForm'
 import { SupplierSharingLink } from '@/components/sharing/SupplierSharingLink'
 import { SupplierValidation } from '@/pages/backoffice/SupplierValidation'
-import { getCurrentUser, signOut } from '@/lib/supabase'
+import { SupplierDashboard } from '@/pages/supplier/SupplierDashboard'
+import { UserManagement } from '@/pages/admin/UserManagement'
+import { useAuth } from '@/hooks/useAuth'
 
 function App() {
   const { t } = useTranslation(['common', 'forms'])
-  const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+  const { user, isLoading: loading, login, logout } = useAuth()
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
 
-  useEffect(() => {
-    checkUser()
-  }, [])
-
-  const checkUser = async () => {
-    try {
-      const currentUser = await getCurrentUser()
-      setUser(currentUser)
-    } catch (error) {
-      setUser(null)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleAuthSuccess = () => {
-    checkUser()
+    // User state is automatically updated by useAuth
   }
 
-  const handleLogout = async () => {
-    try {
-      await signOut()
-      setUser(null)
-    } catch (error) {
-      console.error('Logout error:', error)
-    }
+  const handleLogout = () => {
+    logout()
   }
+
+  // Determine visible tabs based on user role
+  const getVisibleTabs = () => {
+    if (!user) return []
+
+    const tabs = []
+
+    // For suppliers, show only supplier dashboard
+    if (user.role === 'supplier') {
+      return ['supplier']
+    }
+
+    // Agent tab - visible to sales agents and admins
+    if (user.role === 'sales_agent' || user.role === 'admin') {
+      tabs.push('agent')
+    }
+
+    // Documents tab - visible to non-supplier roles
+    if (user.role !== 'supplier') {
+      tabs.push('documents')
+    }
+
+    // Back office tab - only visible to back office staff and admins
+    if (user.role === 'back_office' || user.role === 'admin') {
+      tabs.push('backoffice')
+    }
+
+    // Admin tab - only visible to admins
+    if (user.role === 'admin') {
+      tabs.push('admin')
+    }
+
+    return tabs
+  }
+
+  const visibleTabs = getVisibleTabs()
+  const defaultTab = visibleTabs[0] || 'documents'
 
   if (loading) {
     return (
@@ -123,122 +141,114 @@ function App() {
         </header>
 
         <main className="max-w-7xl mx-auto">
-          <Tabs defaultValue="supplier" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
-              <TabsTrigger value="agent" className="text-xs sm:text-sm">Agent vânzări</TabsTrigger>
-              <TabsTrigger value="supplier" className="text-xs sm:text-sm">{t('common:navigation.suppliers')}</TabsTrigger>
-              <TabsTrigger value="documents" className="text-xs sm:text-sm">{t('common:navigation.documents')}</TabsTrigger>
-              <TabsTrigger value="backoffice" className="text-xs sm:text-sm">Back Office</TabsTrigger>
+          <Tabs defaultValue={defaultTab} className="w-full">
+            <TabsList className={`grid w-full grid-cols-${visibleTabs.length}`}>
+              {visibleTabs.includes('supplier') && (
+                <TabsTrigger value="supplier" className="text-xs sm:text-sm">Contul meu</TabsTrigger>
+              )}
+              {visibleTabs.includes('agent') && (
+                <TabsTrigger value="agent" className="text-xs sm:text-sm">Agent vânzări</TabsTrigger>
+              )}
+              {visibleTabs.includes('documents') && (
+                <TabsTrigger value="documents" className="text-xs sm:text-sm">{t('common:navigation.documents')}</TabsTrigger>
+              )}
+              {visibleTabs.includes('backoffice') && (
+                <TabsTrigger value="backoffice" className="text-xs sm:text-sm">Back Office</TabsTrigger>
+              )}
+              {visibleTabs.includes('admin') && (
+                <TabsTrigger value="admin" className="text-xs sm:text-sm">Admin</TabsTrigger>
+              )}
             </TabsList>
 
-            <TabsContent value="agent" className="space-y-4 sm:space-y-6">
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
-                <div className="space-y-4">
-                  <Card>
-                    <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center gap-2 text-lg">
-                        <User className="h-5 w-5" />
-                        Înregistrare directă
-                      </CardTitle>
-                      <CardDescription className="text-sm">
-                        Înregistrează un furnizor în numele fermierului
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <SupplierRegistrationForm
-                        onSuccess={(id) => console.log('Supplier registered:', id)}
-                        onSaveDraft={(id) => console.log('Draft saved:', id)}
-                      />
-                    </CardContent>
-                  </Card>
-                </div>
+            {visibleTabs.includes('supplier') && (
+              <TabsContent value="supplier" className="space-y-6">
+                <SupplierDashboard />
+              </TabsContent>
+            )}
 
-                <div className="space-y-4">
-                  <SupplierSharingLink
-                    onLinkGenerated={(link) => {
-                      console.log('Generated link:', link)
-                    }}
-                  />
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="supplier" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Building2 className="h-5 w-5" />
-                    Acces Furnizori
-                  </CardTitle>
-                  <CardDescription>
-                    Înregistrarea furnizorilor se face prin link-uri de invitație trimise de agenți
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="text-center py-8">
-                    <Building2 className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-xl font-semibold mb-3">Pentru Furnizori</h3>
-                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                      Dacă sunteți furnizor, veți primi un link de înregistrare prin email sau WhatsApp de la agentul dumneavoastră de vânzări.
-                    </p>
-                    <div className="space-y-3">
-                      <Badge variant="outline" className="block w-fit mx-auto">
-                        📧 Link prin Email
-                      </Badge>
-                      <Badge variant="outline" className="block w-fit mx-auto">
-                        📱 Link prin WhatsApp
-                      </Badge>
-                    </div>
+            {visibleTabs.includes('agent') && (
+              <TabsContent value="agent" className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="space-y-4">
+                    <Card>
+                      <CardHeader className="pb-3">
+                        <CardTitle className="flex items-center gap-2 text-lg">
+                          <User className="h-5 w-5" />
+                          Înregistrare directă
+                        </CardTitle>
+                        <CardDescription className="text-sm">
+                          Înregistrează un furnizor în numele fermierului
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <SupplierRegistrationForm
+                          onSuccess={(id) => console.log('Supplier registered:', id)}
+                          onSaveDraft={(id) => console.log('Draft saved:', id)}
+                        />
+                      </CardContent>
+                    </Card>
                   </div>
 
-                  <Alert>
-                    <AlertDescription>
-                      <strong>Nu aveți link de înregistrare?</strong><br />
-                      Contactați agentul dumneavoastră de vânzări OpenGrains pentru a primi link-ul de înregistrare personalizat.
-                    </AlertDescription>
-                  </Alert>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  <div className="space-y-4">
+                    <SupplierSharingLink
+                      onLinkGenerated={(link) => {
+                        console.log('Generated link:', link)
+                      }}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            )}
 
-            <TabsContent value="documents" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileCheck className="h-5 w-5" />
-                    Managementul Documentelor
-                  </CardTitle>
-                  <CardDescription>
-                    Documentele sunt încărcate prin formularul de înregistrare sau prin link-urile de invitație
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <FileCheck className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-xl font-semibold mb-3">Încărcare Documente</h3>
-                    <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                      Documentele sunt încărcate automat în timpul procesului de înregistrare prin:
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
-                      <div className="border rounded-lg p-4">
-                        <User className="h-8 w-8 mx-auto mb-2 text-blue-500" />
-                        <h4 className="font-medium mb-1">Agent Vânzări</h4>
-                        <p className="text-sm text-muted-foreground">În timpul vizitei la fermier</p>
-                      </div>
-                      <div className="border rounded-lg p-4">
-                        <Building2 className="h-8 w-8 mx-auto mb-2 text-green-500" />
-                        <h4 className="font-medium mb-1">Link Invitație</h4>
-                        <p className="text-sm text-muted-foreground">Furnizor auto-înregistrare</p>
+
+            {visibleTabs.includes('documents') && (
+              <TabsContent value="documents" className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileCheck className="h-5 w-5" />
+                      Managementul Documentelor
+                    </CardTitle>
+                    <CardDescription>
+                      Documentele sunt încărcate prin formularul de înregistrare sau prin link-urile de invitație
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-center py-8">
+                      <FileCheck className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                      <h3 className="text-xl font-semibold mb-3">Încărcare Documente</h3>
+                      <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                        Documentele sunt încărcate automat în timpul procesului de înregistrare prin:
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-md mx-auto">
+                        <div className="border rounded-lg p-4">
+                          <User className="h-8 w-8 mx-auto mb-2 text-blue-500" />
+                          <h4 className="font-medium mb-1">Agent Vânzări</h4>
+                          <p className="text-sm text-muted-foreground">În timpul vizitei la fermier</p>
+                        </div>
+                        <div className="border rounded-lg p-4">
+                          <Building2 className="h-8 w-8 mx-auto mb-2 text-green-500" />
+                          <h4 className="font-medium mb-1">Link Invitație</h4>
+                          <p className="text-sm text-muted-foreground">Furnizor auto-înregistrare</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            )}
 
-            <TabsContent value="backoffice" className="space-y-6">
-              <SupplierValidation />
-            </TabsContent>
+            {visibleTabs.includes('backoffice') && (
+              <TabsContent value="backoffice" className="space-y-6">
+                <SupplierValidation />
+              </TabsContent>
+            )}
+
+            {visibleTabs.includes('admin') && (
+              <TabsContent value="admin" className="space-y-6">
+                <UserManagement />
+              </TabsContent>
+            )}
           </Tabs>
         </main>
       </div>

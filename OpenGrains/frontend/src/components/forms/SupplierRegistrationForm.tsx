@@ -72,8 +72,53 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
     registration_status: 'draft' as const,
   })
 
+  const validateRomanianIBAN = (iban: string): boolean => {
+    if (!iban) return true // Allow empty IBAN
+
+    const cleanIban = iban.replace(/\s/g, '').toUpperCase()
+
+    // Check Romanian IBAN format - must match database constraint: ^RO[0-9]{2}[A-Z]{4}[0-9A-Z]{16}$
+    const ibanRegex = /^RO[0-9]{2}[A-Z]{4}[0-9A-Z]{16}$/
+    if (!ibanRegex.test(cleanIban)) {
+      return false
+    }
+
+    // Basic mod-97 validation
+    const rearranged = cleanIban.slice(4) + cleanIban.slice(0, 4)
+    const numericString = rearranged.replace(/[A-Z]/g, (char) =>
+      (char.charCodeAt(0) - 55).toString()
+    )
+
+    let remainder = 0
+    for (const digit of numericString) {
+      remainder = (remainder * 10 + parseInt(digit)) % 97
+    }
+
+    return remainder === 1
+  }
+
+  const formatIBAN = (iban: string): string => {
+    if (!iban) return ''
+
+    const cleanIban = iban.replace(/\s/g, '').toUpperCase()
+
+    // Add spaces every 4 characters for Romanian IBAN
+    if (cleanIban.startsWith('RO') && cleanIban.length <= 24) {
+      return cleanIban.replace(/(.{4})/g, '$1 ').trim()
+    }
+
+    return cleanIban
+  }
+
   const handleInputChange = (field: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }))
+    let value = e.target.value
+
+    // Special handling for IBAN formatting
+    if (field === 'bank_account') {
+      value = formatIBAN(value)
+    }
+
+    setFormData(prev => ({ ...prev, [field]: value }))
   }
 
   const handleSelectChange = (field: keyof typeof formData) => (value: string) => {
@@ -96,7 +141,16 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
       case 2:
         return !!(formData.address && formData.city && formData.county)
       case 3:
-        return formData.grain_types.length > 0
+        // Validate grain types and IBAN if provided
+        const hasGrainTypes = formData.grain_types.length > 0
+        const ibanValid = !formData.bank_account || validateRomanianIBAN(formData.bank_account)
+
+        if (!ibanValid) {
+          setError('IBAN-ul introdus nu este valid. Vă rugăm să introduceți un IBAN românesc valid (ex: RO49 AAAA 1B31 0075 9384 0000)')
+          return false
+        }
+
+        return hasGrainTypes
       default:
         return true
     }
@@ -121,9 +175,21 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
     setError('')
 
     try {
+      // Clean IBAN if provided
+      let cleanBankAccount: string | null = null
+      if (formData.bank_account && formData.bank_account.trim()) {
+        cleanBankAccount = formData.bank_account.replace(/\s/g, '').toUpperCase()
+
+        // For drafts, just warn about invalid IBAN but don't block saving
+        if (cleanBankAccount && !validateRomanianIBAN(cleanBankAccount)) {
+          console.warn('Invalid IBAN in draft, but allowing save')
+        }
+      }
+
       const supplierData: Omit<CreateSupplierData, 'user_id'> = {
         ...formData,
         estimated_volume: formData.estimated_volume ? parseInt(formData.estimated_volume) : undefined,
+        bank_account: cleanBankAccount, // Send null for empty/invalid IBANs
         registration_status: 'draft',
       }
 
@@ -131,6 +197,7 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
       setSuccess(t('forms:supplier.draft_saved'))
       onSaveDraft?.(result.id)
     } catch (err: any) {
+      console.error('Draft save error:', err)
       setError(err.message || t('forms:errors.save_failed'))
     } finally {
       setIsLoading(false)
@@ -147,9 +214,22 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
     setError('')
 
     try {
+      // Clean and validate IBAN before submission
+      let cleanBankAccount: string | null = null
+      if (formData.bank_account && formData.bank_account.trim()) {
+        cleanBankAccount = formData.bank_account.replace(/\s/g, '').toUpperCase()
+
+        if (!validateRomanianIBAN(cleanBankAccount)) {
+          setError('IBAN-ul introdus nu este valid. Vă rugăm să verificați formatul.')
+          setIsLoading(false)
+          return
+        }
+      }
+
       const supplierData: Omit<CreateSupplierData, 'user_id'> = {
         ...formData,
         estimated_volume: formData.estimated_volume ? parseInt(formData.estimated_volume) : undefined,
+        bank_account: cleanBankAccount, // Send null for empty/invalid IBANs
         registration_status: 'submitted',
       }
 
@@ -157,6 +237,7 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
       setSuccess(t('forms:supplier.submitted_success'))
       onSuccess?.(result.id)
     } catch (err: any) {
+      console.error('Supplier creation error:', err)
       setError(err.message || t('forms:errors.submit_failed'))
     } finally {
       setIsLoading(false)
@@ -373,8 +454,18 @@ export const SupplierRegistrationForm = ({ onSuccess, onSaveDraft }: SupplierReg
                     id="bank_account"
                     value={formData.bank_account}
                     onChange={handleInputChange('bank_account')}
-                    placeholder={t('forms:supplier.placeholders.bankAccount')}
+                    placeholder="RO49 AAAA 1B31 0075 9384 0000"
+                    maxLength={29} // Romanian IBAN with spaces
+                    className={formData.bank_account && !validateRomanianIBAN(formData.bank_account) ? 'border-red-500' : ''}
                   />
+                  {formData.bank_account && !validateRomanianIBAN(formData.bank_account) && (
+                    <p className="text-sm text-red-500">
+                      IBAN românesc invalid. Format: RO + 22 cifre (ex: RO49 AAAA 1B31 0075 9384 0000)
+                    </p>
+                  )}
+                  {formData.bank_account && validateRomanianIBAN(formData.bank_account) && (
+                    <p className="text-sm text-green-600">✓ IBAN valid</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">

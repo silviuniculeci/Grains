@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { signInWithEmail } from '@/lib/supabase'
+import { useAuth } from '@/hooks/useAuth'
 import { Loader2, LogIn } from 'lucide-react'
 
 interface LoginFormProps {
@@ -15,6 +15,7 @@ interface LoginFormProps {
 
 export const LoginForm = ({ onSuccess, onSignUpClick }: LoginFormProps) => {
   const { t } = useTranslation(['common', 'auth'])
+  const { login } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,7 +29,7 @@ export const LoginForm = ({ onSuccess, onSignUpClick }: LoginFormProps) => {
     setError('')
 
     try {
-      await signInWithEmail(formData.email, formData.password)
+      await login(formData.email, formData.password)
       onSuccess?.()
     } catch (err: any) {
       setError(err.message || t('auth:errors.loginFailed'))
