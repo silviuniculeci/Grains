@@ -541,6 +541,296 @@ export interface Database {
           updated_at?: string
         }
       }
+      contacts: {
+        Row: {
+          id: string
+          name: string
+          legal_type: 'individual' | 'legal_entity'
+          tax_id?: string
+          agent_id?: string
+          status: 'draft' | 'pending_validation' | 'valid' | 'rejected'
+          contact_type: 'supplier' | 'buyer' | 'both'
+          street: string
+          city: string
+          county: string
+          country: string
+          postal_code: string
+          phone: string
+          email: string
+          first_name?: string
+          last_name?: string
+          full_name?: string
+          id_series?: string
+          id_number?: string
+          personal_identification_number?: string
+          company_name?: string
+          trade_register_number?: string
+          vat_registration_number?: string
+          company_number?: string
+          iban?: string
+          bank_name?: string
+          swift_code?: string
+          iban_validated: boolean
+          anaf_verified: boolean
+          anaf_data?: Json
+          anaf_last_checked?: string
+          cultivated_area?: number
+          purchase_potential?: string
+          annual_purchase_target?: number
+          apia_certificate_number?: string
+          apia_certificate_expiration?: string
+          validation_status: 'not_reviewed' | 'under_review' | 'approved' | 'rejected'
+          validation_notes?: string
+          validated_by?: string
+          validated_at?: string
+          can_place_orders: boolean
+          requires_backoffice_validation: boolean
+          created_by: string
+          created_at: string
+          updated_by: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          legal_type: 'individual' | 'legal_entity'
+          tax_id?: string
+          agent_id?: string
+          status?: 'draft' | 'pending_validation' | 'valid' | 'rejected'
+          contact_type: 'supplier' | 'buyer' | 'both'
+          street: string
+          city: string
+          county: string
+          country?: string
+          postal_code: string
+          phone: string
+          email: string
+          first_name?: string
+          last_name?: string
+          full_name?: string
+          id_series?: string
+          id_number?: string
+          personal_identification_number?: string
+          company_name?: string
+          trade_register_number?: string
+          vat_registration_number?: string
+          company_number?: string
+          iban?: string
+          bank_name?: string
+          swift_code?: string
+          iban_validated?: boolean
+          anaf_verified?: boolean
+          anaf_data?: Json
+          anaf_last_checked?: string
+          cultivated_area?: number
+          purchase_potential?: string
+          annual_purchase_target?: number
+          apia_certificate_number?: string
+          apia_certificate_expiration?: string
+          validation_status?: 'not_reviewed' | 'under_review' | 'approved' | 'rejected'
+          validation_notes?: string
+          validated_by?: string
+          validated_at?: string
+          can_place_orders?: boolean
+          requires_backoffice_validation?: boolean
+          created_by: string
+          created_at?: string
+          updated_by: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          legal_type?: 'individual' | 'legal_entity'
+          tax_id?: string
+          agent_id?: string
+          status?: 'draft' | 'pending_validation' | 'valid' | 'rejected'
+          contact_type?: 'supplier' | 'buyer' | 'both'
+          street?: string
+          city?: string
+          county?: string
+          country?: string
+          postal_code?: string
+          phone?: string
+          email?: string
+          first_name?: string
+          last_name?: string
+          full_name?: string
+          id_series?: string
+          id_number?: string
+          personal_identification_number?: string
+          company_name?: string
+          trade_register_number?: string
+          vat_registration_number?: string
+          company_number?: string
+          iban?: string
+          bank_name?: string
+          swift_code?: string
+          iban_validated?: boolean
+          anaf_verified?: boolean
+          anaf_data?: Json
+          anaf_last_checked?: string
+          cultivated_area?: number
+          purchase_potential?: string
+          annual_purchase_target?: number
+          apia_certificate_number?: string
+          apia_certificate_expiration?: string
+          validation_status?: 'not_reviewed' | 'under_review' | 'approved' | 'rejected'
+          validation_notes?: string
+          validated_by?: string
+          validated_at?: string
+          can_place_orders?: boolean
+          requires_backoffice_validation?: boolean
+          created_by?: string
+          created_at?: string
+          updated_by?: string
+          updated_at?: string
+        }
+      }
+      contact_loading_addresses: {
+        Row: {
+          id: string
+          contact_id: string
+          name: string
+          phone: string
+          address: string
+          postal_code: string
+          unloading_location: string
+          secondary_address?: string
+          secondary_address_2?: string
+          is_primary: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          contact_id: string
+          name: string
+          phone: string
+          address: string
+          postal_code: string
+          unloading_location: string
+          secondary_address?: string
+          secondary_address_2?: string
+          is_primary?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          contact_id?: string
+          name?: string
+          phone?: string
+          address?: string
+          postal_code?: string
+          unloading_location?: string
+          secondary_address?: string
+          secondary_address_2?: string
+          is_primary?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      contact_associated_contacts: {
+        Row: {
+          id: string
+          contact_id: string
+          first_name: string
+          last_name: string
+          email: string
+          phone: string
+          role?: string
+          notes?: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          contact_id: string
+          first_name: string
+          last_name: string
+          email: string
+          phone: string
+          role?: string
+          notes?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          contact_id?: string
+          first_name?: string
+          last_name?: string
+          email?: string
+          phone?: string
+          role?: string
+          notes?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      contact_documents: {
+        Row: {
+          id: string
+          contact_id: string
+          filename: string
+          file_path: string
+          file_size: number
+          mime_type: string
+          document_type: string
+          description?: string
+          uploaded_by: string
+          uploaded_at: string
+          validation_status: 'not_reviewed' | 'under_review' | 'approved' | 'rejected'
+          validation_notes?: string
+          validated_by?: string
+          validated_at?: string
+          ocr_status?: 'pending' | 'processing' | 'completed' | 'failed'
+          ocr_result_id?: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          contact_id: string
+          filename: string
+          file_path: string
+          file_size: number
+          mime_type: string
+          document_type: string
+          description?: string
+          uploaded_by: string
+          uploaded_at?: string
+          validation_status?: 'not_reviewed' | 'under_review' | 'approved' | 'rejected'
+          validation_notes?: string
+          validated_by?: string
+          validated_at?: string
+          ocr_status?: 'pending' | 'processing' | 'completed' | 'failed'
+          ocr_result_id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          contact_id?: string
+          filename?: string
+          file_path?: string
+          file_size?: number
+          mime_type?: string
+          document_type?: string
+          description?: string
+          uploaded_by?: string
+          uploaded_at?: string
+          validation_status?: 'not_reviewed' | 'under_review' | 'approved' | 'rejected'
+          validation_notes?: string
+          validated_by?: string
+          validated_at?: string
+          ocr_status?: 'pending' | 'processing' | 'completed' | 'failed'
+          ocr_result_id?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

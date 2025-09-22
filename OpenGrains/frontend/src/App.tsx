@@ -14,12 +14,18 @@ import { SupplierSharingLink } from '@/components/sharing/SupplierSharingLink'
 import { SupplierValidation } from '@/pages/backoffice/SupplierValidation'
 import { SupplierDashboard } from '@/pages/supplier/SupplierDashboard'
 import { UserManagement } from '@/pages/admin/UserManagement'
+import ContactsNavigation from '@/components/navigation/ContactsNavigation'
 import { useAuth } from '@/hooks/useAuth'
 
 function App() {
   const { t } = useTranslation(['common', 'forms'])
   const { user, isLoading: loading, logout } = useAuth()
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
+  const [currentView, setCurrentView] = useState<{
+    page: string
+    subPage?: string
+    id?: string
+  }>({ page: 'dashboard' })
 
   const handleAuthSuccess = () => {
     // User state is automatically updated by useAuth
@@ -44,6 +50,9 @@ function App() {
     if (user.role === 'sales_agent' || user.role === 'admin') {
       tabs.push('agent')
     }
+
+    // Contacts tab - visible to non-supplier roles
+    tabs.push('contacts')
 
     // Documents tab - visible to non-supplier roles
     tabs.push('documents')
@@ -146,6 +155,9 @@ function App() {
               {visibleTabs.includes('agent') && (
                 <TabsTrigger value="agent" className="text-xs sm:text-sm">Agent vânzări</TabsTrigger>
               )}
+              {visibleTabs.includes('contacts') && (
+                <TabsTrigger value="contacts" className="text-xs sm:text-sm">Contacte</TabsTrigger>
+              )}
               {visibleTabs.includes('documents') && (
                 <TabsTrigger value="documents" className="text-xs sm:text-sm">{t('common:navigation.documents')}</TabsTrigger>
               )}
@@ -197,6 +209,11 @@ function App() {
               </TabsContent>
             )}
 
+            {visibleTabs.includes('contacts') && (
+              <TabsContent value="contacts" className="space-y-6">
+                <ContactsNavigation />
+              </TabsContent>
+            )}
 
             {visibleTabs.includes('documents') && (
               <TabsContent value="documents" className="space-y-6">
