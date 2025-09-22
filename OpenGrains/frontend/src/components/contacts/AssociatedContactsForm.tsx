@@ -42,7 +42,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ContactService } from '@/services/contact-service'
-import type { Contact, AssociatedContact } from '../../../shared/types/contact-types'
+import type { Contact, AssociatedContact } from '../../../../shared/types/contact-types'
 import {
   Users,
   Plus,

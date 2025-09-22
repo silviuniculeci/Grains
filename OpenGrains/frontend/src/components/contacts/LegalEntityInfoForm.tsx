@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ContactService } from '@/services/contact-service'
-import type { ANAFQueryResult } from '../../../shared/types/contact-types'
+import type { ANAFQueryResult } from '../../../../shared/types/contact-types'
 import {
   Building2,
   Search,
@@ -39,7 +39,6 @@ const LegalEntityInfoForm: React.FC<LegalEntityInfoFormProps> = ({ form, isReadO
   const [anafError, setAnafError] = useState<string | null>(null)
 
   const companyName = form.watch('companyName')
-  const tradeRegisterNumber = form.watch('tradeRegisterNumber')
   const vatRegistrationNumber = form.watch('vatRegistrationNumber')
 
   // Auto-update display name when company name changes

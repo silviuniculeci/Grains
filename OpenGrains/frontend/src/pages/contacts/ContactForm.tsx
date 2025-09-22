@@ -13,7 +13,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,7 +32,6 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -59,10 +57,8 @@ import type {
   Contact,
   CreateContactData,
   UpdateContactData,
-  ContactLegalType,
-  ContactType,
   ContactStatus
-} from '../../../shared/types/contact-types'
+} from '../../../../shared/types/contact-types'
 import { useAuth } from '@/hooks/useAuth'
 import BasicInfoForm from '@/components/contacts/BasicInfoForm'
 import IndividualInfoForm from '@/components/contacts/IndividualInfoForm'
@@ -251,7 +247,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
       setSaving(true)
       setError(null)
 
-      const contactData: CreateContactData | UpdateContactData = {
+      const contactData: CreateContactData = {
         name: data.name,
         legalType: data.legalType,
         contactType: data.contactType,
@@ -300,7 +296,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
         result = await ContactService.update(contact.id, {
           ...contactData,
           status: 'draft'
-        })
+        } as UpdateContactData)
       } else {
         result = await ContactService.create(contactData)
       }
@@ -350,7 +346,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
 
   // Status badge
   const getStatusBadge = (status: ContactStatus) => {
-    const variants = {
+    const variants: Record<ContactStatus, { icon: any, variant: 'secondary' | 'default' | 'destructive', color: string }> = {
       draft: { icon: AlertTriangle, variant: 'secondary' as const, color: 'text-gray-600' },
       pending_validation: { icon: Loader2, variant: 'default' as const, color: 'text-yellow-600' },
       valid: { icon: CheckCircle, variant: 'default' as const, color: 'text-green-600' },

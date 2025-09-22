@@ -20,7 +20,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import type { ContactType } from '../../../shared/types/contact-types'
+import type { ContactType } from '../../../../shared/types/contact-types'
 import {
   Package,
   MapPin,

@@ -21,11 +21,6 @@ function App() {
   const { t } = useTranslation(['common', 'forms'])
   const { user, isLoading: loading, logout } = useAuth()
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login')
-  const [currentView, setCurrentView] = useState<{
-    page: string
-    subPage?: string
-    id?: string
-  }>({ page: 'dashboard' })
 
   const handleAuthSuccess = () => {
     // User state is automatically updated by useAuth

@@ -10,7 +10,6 @@ import type {
   AssociatedContact,
   ContactDocument,
   ANAFQueryResult,
-  ContactValidationResult,
   ContactStatistics
 } from '../../../shared/types/contact-types'
 

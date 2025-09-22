@@ -42,7 +42,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ContactService } from '@/services/contact-service'
-import type { Contact, LoadingAddress } from '../../../shared/types/contact-types'
+import type { Contact, LoadingAddress } from '../../../../shared/types/contact-types'
 import {
   Truck,
   Plus,
@@ -52,7 +52,6 @@ import {
   Phone,
   Star,
   AlertTriangle,
-  CheckCircle,
   Loader2,
   Save
 } from 'lucide-react'

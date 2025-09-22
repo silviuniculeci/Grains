@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ContactService } from '@/services/contact-service'
-import type { Contact, ContactLegalType } from '../../../shared/types/contact-types'
+import type { Contact, ContactLegalType } from '../../../../shared/types/contact-types'
 import {
   CreditCard,
   Building2,
@@ -56,11 +56,6 @@ const FinancialInfoForm: React.FC<FinancialInfoFormProps> = ({
   } | null>(null)
 
   const iban = form.watch('iban')
-  const bankName = form.watch('bankName')
-  const swiftCode = form.watch('swiftCode')
-  const tradeRegisterNumber = form.watch('tradeRegisterNumber')
-  const vatRegistrationNumber = form.watch('vatRegistrationNumber')
-  const companyNumber = form.watch('companyNumber')
 
   // Validate IBAN in real-time
   useEffect(() => {

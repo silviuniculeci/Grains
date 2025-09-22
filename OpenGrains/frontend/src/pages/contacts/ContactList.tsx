@@ -48,7 +48,7 @@ import type {
   ContactType,
   ContactLegalType,
   ValidationStatus
-} from '../../../shared/types/contact-types'
+} from '../../../../shared/types/contact-types'
 import { useAuth } from '@/hooks/useAuth'
 
 interface ContactListProps {
@@ -75,7 +75,7 @@ const ContactList: React.FC<ContactListProps> = ({ navigate }) => {
   const [filters, setFilters] = useState<ContactFilters>({
     page: 1,
     limit: 20,
-    sortBy: 'created_at',
+    sortBy: 'createdAt',
     sortOrder: 'desc'
   })
 
@@ -134,7 +134,7 @@ const ContactList: React.FC<ContactListProps> = ({ navigate }) => {
     const newFilters: ContactFilters = {
       page: 1,
       limit: 20,
-      sortBy: 'created_at',
+      sortBy: 'createdAt',
       sortOrder: 'desc',
       agentId: user?.role === 'sales_agent' ? user.id : undefined
     }
@@ -174,7 +174,7 @@ const ContactList: React.FC<ContactListProps> = ({ navigate }) => {
 
   // Status badge styling
   const getStatusBadge = (status: ContactStatus) => {
-    const variants = {
+    const variants: Record<ContactStatus, { variant: 'secondary' | 'default' | 'destructive', color: string }> = {
       draft: { variant: 'secondary' as const, color: 'text-gray-600' },
       pending_validation: { variant: 'default' as const, color: 'text-yellow-600' },
       valid: { variant: 'default' as const, color: 'text-green-600' },
@@ -190,7 +190,7 @@ const ContactList: React.FC<ContactListProps> = ({ navigate }) => {
 
   // Contact type badge
   const getTypeBadge = (type: ContactType) => {
-    const colors = {
+    const colors: Record<ContactType, string> = {
       supplier: 'bg-blue-100 text-blue-800',
       buyer: 'bg-green-100 text-green-800',
       both: 'bg-purple-100 text-purple-800'

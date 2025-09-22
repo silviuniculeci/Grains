@@ -14,7 +14,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import {
   Table,
@@ -32,20 +31,18 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ContactService } from '@/services/contact-service'
-import type { Contact, ContactDocument, ValidationStatus } from '../../../shared/types/contact-types'
+import type { Contact, ContactDocument, ValidationStatus } from '../../../../shared/types/contact-types'
 import {
   FileText,
   Upload,
   Download,
   Eye,
   Trash2,
-  Plus,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -78,7 +75,6 @@ const DocumentUploadForm: React.FC<DocumentUploadFormProps> = ({
   const [documents, setDocuments] = useState<ContactDocument[]>(contact?.documents || [])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
   const [viewDocumentUrl, setViewDocumentUrl] = useState<string | null>(null)
 
   // Upload state
@@ -255,7 +251,7 @@ const DocumentUploadForm: React.FC<DocumentUploadFormProps> = ({
 
   // Get validation status badge
   const getValidationBadge = (status: ValidationStatus) => {
-    const variants = {
+    const variants: Record<ValidationStatus, { icon: any, variant: 'outline' | 'default' | 'destructive', color: string }> = {
       not_reviewed: { icon: Clock, variant: 'outline' as const, color: 'text-gray-600' },
       under_review: { icon: Loader2, variant: 'default' as const, color: 'text-yellow-600' },
       approved: { icon: CheckCircle, variant: 'default' as const, color: 'text-green-600' },
